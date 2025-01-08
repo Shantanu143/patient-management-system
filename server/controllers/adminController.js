@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import validator from "validator";
-import doctorModel from "../models/doctorModel";
+import doctorModel from "../models/doctorModel.js";
 import jwt from "jsonwebtoken";
 
 // API to login admin
@@ -13,14 +13,16 @@ const loginAdmin = async (req, res) => {
       email == process.env.ADMIN_EMAIL &&
       password == process.env.ADMIN_PASSWORD
     ) {
-      const token = jwt.sign(email + password, process.env.JWT_SECRET, {
+      const payload = { email, password };
+
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
       res.status(202).json({ success: true, token });
     } else {
       res
         .status(401)
-        .json({ success: false, message: "Invalid Credantials !!" });
+        .json({ success: false, message: "Invalid Credentials !!" });
     }
   } catch (error) {
     res.status(500).json({
@@ -65,7 +67,7 @@ const registerDoctor = async (req, res) => {
         .json({ success: false, message: "Email address is not valid " });
     }
 
-    // strong poassword validation
+    // strong password validation
 
     if (password.length < 8) {
       return res.status(400).json({
@@ -99,4 +101,4 @@ const registerDoctor = async (req, res) => {
   }
 };
 
-export { registerDoctor,loginAdmin };
+export { registerDoctor, loginAdmin };

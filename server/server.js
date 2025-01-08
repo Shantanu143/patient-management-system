@@ -1,14 +1,18 @@
 import express from "express";
 import cors from "cors";
-import adminRouter from "./routes/adminRoutes";
-// import connectMongoDb from "./config/connecrtMongoDb";
+import adminRouter from "./routes/adminRoutes.js";
+import dotenv from "dotenv";
+import connectMongoDb from "./config/connectMongoDb.js";
 // import connectCloudinary from "./config/cloudinary";
+
+// env config
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4001;
 
 // database connection function call
-// connectMongoDb();
+connectMongoDb();
 
 // cloudinary connection function call
 // connectCloudinary();
@@ -22,7 +26,7 @@ app.use(cors());
 
 // api endpoints
 
-app.get("/admin", adminRouter);
+app.use("/admin", adminRouter);
 
 // test api
 app.get("/", (req, res) => {
