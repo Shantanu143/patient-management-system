@@ -32,7 +32,7 @@ This system enhances efficiency, reduces paperwork, and simplifies the managemen
 
 ## System Architecture
 
-### Frontend
+### client
 **Framework**: React.js
 
 #### Components
@@ -46,7 +46,7 @@ This system enhances efficiency, reduces paperwork, and simplifies the managemen
 - **Print Views**:
   - Printable pages for prescriptions and bills.
 
-### Backend
+### server
 **Framework**: Express.js
 
 #### Endpoints
@@ -119,8 +119,8 @@ This system enhances efficiency, reduces paperwork, and simplifies the managemen
 
 ## Technology Stack
 
-- **Frontend**: React.js, Redux, Axios
-- **Backend**: Node.js, Express.js
+- **client**: React.js, Redux, Axios
+- **server**: Node.js, Express.js
 - **Database**: MongoDB
 - **Authentication**: JWT-based authentication for secure login.
 
@@ -144,13 +144,13 @@ This system enhances efficiency, reduces paperwork, and simplifies the managemen
 
 ---
 
-## Frontend-Backend Integration
+## client-server Integration
 
 ### Authentication
 - **JWT Authentication**: Ensures secure login and role-based access control.
 
 ### API Interaction
-- Frontend communicates with the backend using Axios for API requests.
+- client communicates with the server using Axios for API requests.
 - React Query is used for efficient data fetching and caching.
 
 ---
@@ -159,43 +159,44 @@ This system enhances efficiency, reduces paperwork, and simplifies the managemen
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone [text](https://github.com/Shantanu143/patient-management-system.git)
    cd doctor-management-system
    ```
 
 2. **Install dependencies:**
-   - For the frontend:
+   - For the client:
      ```bash
-     cd frontend
+     cd client
      npm install
      ```
-   - For the backend:
+   - For the server:
      ```bash
-     cd backend
+     cd server
      npm install
      ```
 
 3. **Set up environment variables:**
-   - Create a `.env` file in the backend directory and configure the following:
+   - Create a `.env` file in the server directory and configure the following:
      ```env
      MONGO_URI=<your-mongodb-connection-string>
      JWT_SECRET=<your-jwt-secret>
      ```
 
 4. **Run the application:**
-   - Start the backend server:
+   - Start the server server:
      ```bash
-     cd backend
-     npm start
+     cd server
+     npm run dev
      ```
-   - Start the frontend:
+   - Start the client:
      ```bash
-     cd frontend
-     npm start
+     cd client
+     npm run dev
      ```
 
 5. **Access the application:**
-   - Admin and Doctor portals will be available at `http://localhost:3000`.
+   - Admin portal will be available at `http://localhost:5173`.
+   - Doctor portal will be available at `http://localhost:4001 || 4000`.
 
 ---
 
@@ -226,6 +227,6 @@ We welcome contributions! Please follow these steps:
 ## Contact
 
 For any queries or issues, please contact:
-- Email: [support@example.com](mailto:support@example.com)
-- GitHub: [GitHub Repository](<repository-url>)
+- Email: [support@example.com](shantanunirapal@gmail.com)
+- GitHub: [GitHub Repository](https://github.com/Shantanu143/patient-management-system.git)
 
