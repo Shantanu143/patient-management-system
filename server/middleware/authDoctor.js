@@ -24,6 +24,7 @@ const authDoctor = async (req, res, next) => {
 
     // Proceed to the next middleware
     next();
+    
   } catch (error) {
     // Log the error safely
     console.error("Authentication error:", error.message);

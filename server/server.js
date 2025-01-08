@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import adminRouter from "./routes/adminRoutes";
 // import connectMongoDb from "./config/connecrtMongoDb";
 // import connectCloudinary from "./config/cloudinary";
 
@@ -21,8 +22,9 @@ app.use(cors());
 
 // api endpoints
 
-// test api
+app.get("/admin", adminRouter);
 
+// test api
 app.get("/", (req, res) => {
   res.send("server is working ");
 });
