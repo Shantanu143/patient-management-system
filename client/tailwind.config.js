@@ -6,6 +6,8 @@ export default {
       backgroundImage: {
         'custom-gradient':
           'linear-gradient(to top, rgba(13,13,13,1) 0%, rgba(50,24,13,1) 100%)',
+        'card-gradient':
+          'radial-gradient(at top right, rgba(13,13,13,1) 0%, rgba(117,43,15) 100%)',
       },
       fontFamily: {
         inter: ['inter', 'sans-serif'],
