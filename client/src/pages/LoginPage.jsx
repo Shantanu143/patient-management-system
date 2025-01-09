@@ -13,11 +13,11 @@ const LoginPage = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    const credentials = { email, password };
-    formSubmitHandler(credentials);
+    const cgreenentials = { email, password };
+    formSubmitHandler(cgreenentials);
   };
 
-  const formSubmitHandler = async (credentials) => {
+  const formSubmitHandler = async (cgreenentials) => {
     try {
       if (!backendUrl) {
         throw new Error("Backend URL is not defined.");
@@ -32,7 +32,7 @@ const LoginPage = () => {
         throw new Error("Invalid role. Please provide a valid role.");
       }
 
-      const { data } = await axios.post(url, credentials);
+      const { data } = await axios.post(url, cgreenentials);
 
       if (data.success) {
         localStorage.setItem("token", data.token);
@@ -58,7 +58,7 @@ const LoginPage = () => {
     <div className="flex justify-center items-center w-full h-screen">
       <form
         onSubmit={submitForm}
-        className="min-w-40 w-2/6 mx-auto border border-red-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
+        className="min-w-40 w-2/6 mx-auto border border-green-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
       >
         <h1 className="text-2xl font-medium text-white pb-5">
           Login as {role === "admin" ? "admin" : "doctor"}
@@ -75,9 +75,9 @@ const LoginPage = () => {
             type="email"
             id="username"
             onChange={(e) => setEmail(e.target.value)}
-            className="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="name@doctor.com"
-            required
+            requigreen
           />
         </div>
         <div className="mb-5">
@@ -91,8 +91,8 @@ const LoginPage = () => {
             type="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
-            className="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-red-500"
-            required
+            className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
+            requigreen
           />
         </div>
         {role === "admin" ? (
@@ -119,7 +119,7 @@ const LoginPage = () => {
 
         <button
           type="submit"
-          className="relative group text-white bg-[#FF520E] overflow-hidden font-medium rounded-lg text-sm w-full sm:w-auto text-center transition-all"
+          className="relative group text-white bg-[#137024] overflow-hidden font-medium rounded-lg text-sm w-full sm:w-auto text-center transition-all"
         >
           <span className="block transition-transform transform group-hover:-translate-y-full duration-500  px-5 py-2.5">
             Submit

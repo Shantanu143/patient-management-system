@@ -3,7 +3,9 @@ import { createContext, useState } from "react";
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    localStorage.getItem("token") ? localStorage.getItem("token") : false
+  );
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
