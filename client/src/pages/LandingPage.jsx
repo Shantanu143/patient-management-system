@@ -46,7 +46,7 @@ const LandingPage = () => {
         ].map((item, index) => {
           return (
             <div
-              className="relative flex flex-col my-3  mx-3 bg-transparent hover:bg-card-gradient shadow-sm border border-[#ff520e51] rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60 p-4 text-start transition-all ease-in duration-300 hover:-translate-y-1"
+              className="relative flex flex-col my-3  mx-3 bg-transparent hover:bg-card-gradient shadow-sm border border-[#ff520e51] rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60 p-4 text-start transition-all ease-in duration-500 hover:-translate-y-1"
               key={index}
             >
               <div className="flex items-center p-2">
