@@ -7,14 +7,14 @@ import jwt from "jsonwebtoken";
 
 const loginAdmin = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
 
     if (
       email == process.env.ADMIN_EMAIL &&
-      password == process.env.ADMIN_PASSWORD &&
-      role == process.env.ROLE
+      password == process.env.ADMIN_PASSWORD
     ) {
-      const payload = { email ,role};
+      const role = process.env.ROLE;
+      const payload = { email, role };
 
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
@@ -85,16 +85,14 @@ const registerDoctor = async (req, res) => {
     const doctorData = {
       name,
       email,
-    password: hashedPassword,
+      password: hashedPassword,
       specialization,
       phone,
       availability,
       role,
     };
 
-
     console.log(doctorData);
-    
 
     const newDoctor = new doctorModel(doctorData);
     const doctor = await newDoctor.save();
