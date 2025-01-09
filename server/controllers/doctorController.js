@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import doctorModel from "../models/doctorModel";
+import doctorModel from "../models/doctorModel.js";
+import bcrypt from "bcrypt";
 
 const loginDoctor = async (req, res) => {
   try {
@@ -13,8 +14,12 @@ const loginDoctor = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, doctor.password);
+
     if (isMatch) {
-      const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: doctor._id, role: "doctor" },
+        process.env.JWT_SECRET
+      );
       res.status(201).json({ success: true, token });
     } else {
       res.status(401).json({ success: true, message: "Invalid Credinatial" });
@@ -26,4 +31,15 @@ const loginDoctor = async (req, res) => {
   }
 };
 
-export { loginDoctor };
+const doctorAuthTest = async (req, res) => {
+  try {
+    res.send("this is working fine ");
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Doctor Auth Catch Block Error : " + error.message,
+    });
+  }
+};
+
+export { loginDoctor, doctorAuthTest };

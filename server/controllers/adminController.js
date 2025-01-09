@@ -1,26 +1,29 @@
 import bcrypt from "bcrypt";
 import validator from "validator";
-import doctorModel from "../models/doctorModel";
+import doctorModel from "../models/doctorModel.js";
 import jwt from "jsonwebtoken";
 
 // API to login admin
 
 const loginAdmin = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     if (
       email == process.env.ADMIN_EMAIL &&
-      password == process.env.ADMIN_PASSWORD
+      password == process.env.ADMIN_PASSWORD &&
+      role == process.env.ROLE
     ) {
-      const token = jwt.sign(email + password, process.env.JWT_SECRET, {
+      const payload = { email ,role};
+
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
       res.status(202).json({ success: true, token });
     } else {
       res
         .status(401)
-        .json({ success: false, message: "Invalid Credantials !!" });
+        .json({ success: false, message: "Invalid Credentials !!" });
     }
   } catch (error) {
     res.status(500).json({
@@ -33,7 +36,7 @@ const loginAdmin = async (req, res) => {
 // API to register a doctor
 const registerDoctor = async (req, res) => {
   try {
-    const { name, email, password, specialization, phone, availability } =
+    const { name, email, password, specialization, phone, availability, role } =
       req.body;
 
     if (
@@ -42,7 +45,8 @@ const registerDoctor = async (req, res) => {
       !password ||
       !specialization ||
       !phone ||
-      !availability
+      !availability ||
+      !role
     ) {
       return res
         .status(401)
@@ -65,7 +69,7 @@ const registerDoctor = async (req, res) => {
         .json({ success: false, message: "Email address is not valid " });
     }
 
-    // strong poassword validation
+    // strong password validation
 
     if (password.length < 8) {
       return res.status(400).json({
@@ -75,17 +79,22 @@ const registerDoctor = async (req, res) => {
     }
 
     // hashed password
-    const salt = await bcrypt.gensalt(10);
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const doctorData = {
       name,
       email,
-      password: hashedPassword,
+    password: hashedPassword,
       specialization,
       phone,
       availability,
+      role,
     };
+
+
+    console.log(doctorData);
+    
 
     const newDoctor = new doctorModel(doctorData);
     const doctor = await newDoctor.save();
@@ -93,10 +102,10 @@ const registerDoctor = async (req, res) => {
     const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET, {
       expiresIn: "24h",
     });
-    res.status(201).json({ success: true, token });
+    res.status(201).json({ success: true, message: "Doctor Registerd !!" });
   } catch (error) {
     res.status(401).json({ success: false, message: error.message });
   }
 };
 
-export { registerDoctor,loginAdmin };
+export { registerDoctor, loginAdmin };
