@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 const authAdmin = async (req, res, next) => {
   try {
-
     const { atoken } = req.headers;
 
     // check if token exits
@@ -16,12 +15,14 @@ const authAdmin = async (req, res, next) => {
     // verify the token
     const decodedToken = jwt.verify(atoken, process.env.JWT_SECRET);
 
-    if (decodedToken !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
+    let email = process.env.ADMIN_EMAIL;
+    if (decodedToken.email !== email || decodedToken.role != "admin") {
       return res.status(401).json({
         success: false,
         message: "Not Authorized. Admin access required.",
       });
     }
+
     next();
   } catch (error) {
     console.log("Auth Error : " + error);
@@ -43,7 +44,7 @@ const authAdmin = async (req, res, next) => {
 
     return res
       .status(500)
-      .json({ success: false, message: "Admin Auth Error" + error.message });
+      .json({ success: false, message: "Admin Auth Error : " + error.message });
   }
 };
 

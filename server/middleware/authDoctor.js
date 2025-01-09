@@ -3,28 +3,31 @@ import jwt from "jsonwebtoken";
 // Doctor Authentication Middleware
 const authDoctor = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    const { token } = req.headers;
 
     // Check if Authorization header exists
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!token) {
       return res.status(401).json({
         success: false,
         message: "Authorization token is missing or invalid",
       });
     }
 
-    // Extract token from the Authorization header
-    const token = authHeader.split(" ")[1];
-
     // Verify and decode token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (decodedToken.role !== "doctor") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Only doctors can access this route",
+      });
+    }
 
     // Attach userId to req object in a non-conflicting way
     req.user = { id: decodedToken.id };
 
     // Proceed to the next middleware
     next();
-    
   } catch (error) {
     // Log the error safely
     console.error("Authentication error:", error.message);
