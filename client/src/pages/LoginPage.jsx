@@ -1,25 +1,83 @@
-import React from 'react';
-
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
+  const { backendUrl, token, setToken } = useContext(AppContext);
+  const [role, setRole] = useState('doctor');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const cgreenentials = { email, password };
+    formSubmitHandler(cgreenentials);
+  };
+
+  const formSubmitHandler = async (cgreenentials) => {
+    try {
+      if (!backendUrl) {
+        throw new Error('Backend URL is not defined.');
+      }
+
+      let url = '';
+      if (role === 'doctor') {
+        url = backendUrl + '/doctor/login-doctor';
+      } else if (role === 'admin') {
+        url = backendUrl + '/admin/login-admin';
+      } else {
+        throw new Error('Invalid role. Please provide a valid role.');
+      }
+
+      const { data } = await axios.post(url, cgreenentials);
+
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+        toast.success('Login successful');
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      // Log the error and display an appropriate message
+      console.log('Error during login:', error.message);
+      toast.error(error.response?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, [token]);
+
   return (
-    <div className="flex justify-center items-center w-full h-screen ">
+    <div className="flex justify-center items-center w-full h-screen">
       <form
-        className=" min-w-40 w-2/6 mx-auto border-2 border-red-500 rounded-lg p-10 hover:-translate-y-1
-      transition-all"
+        onSubmit={submitForm}
+        className="min-w-40 w-2/6 mx-auto border border-green-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
       >
-        <div className="mb-5">
+        <h1 className="text-2xl font-medium text-white pb-5">
+          Login as {role === 'admin' ? 'admin' : 'doctor'}
+        </h1>
+
+        <div className="mb-5 ">
           <label
-            htmlFor="username"
+            htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Username
+            Email
           </label>
           <input
-            type="username"
+            type="email"
             id="username"
-            className="bg-transparent border border-gray-300 text-white text-sm rounded-lg block w-full p-2.5 focus:outline-none  focus:ring focus:ring-red-600"
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="name@doctor.com"
-            required
+            requigreen
           />
         </div>
         <div className="mb-5">
@@ -32,15 +90,36 @@ const LoginPage = () => {
           <input
             type="password"
             id="password"
-            className="bg-transparent border border-gray-300 text-white text-sm rounded-lg block w-full p-2.5 focus:outline-none  focus:ring focus:ring-red-600"
-            placeholder="*********"
-            required
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
+            requigreen
           />
         </div>
+        {role === 'admin' ? (
+          <p className="text-white mb-4">
+            Login as doctor{' '}
+            <span
+              onClick={() => setRole('doctor')}
+              className="text-white underline cursor-pointer"
+            >
+              click here
+            </span>
+          </p>
+        ) : (
+          <p className="text-white mb-4">
+            Login as admin{' '}
+            <span
+              onClick={() => setRole('admin')}
+              className="text-white underline cursor-pointer"
+            >
+              click here
+            </span>
+          </p>
+        )}
 
         <button
           type="submit"
-          className="relative group text-white bg-[#FF520E] overflow-hidden font-medium rounded-lg text-sm w-full sm:w-auto text-center transition-all"
+          className="relative group text-white bg-[#137024] overflow-hidden font-medium rounded-lg text-sm w-full sm:w-auto text-center transition-all"
         >
           <span className="block transition-transform transform group-hover:-translate-y-full duration-500  px-5 py-2.5">
             Submit

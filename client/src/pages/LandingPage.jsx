@@ -1,7 +1,16 @@
-import React from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
 
 const LandingPage = () => {
+  const { token, setToken } = useContext(AppContext);
+
+  const handleLogout = () => {
+    setToken(false);
+    toast.success('succefully log out ');
+  };
+
   return (
     <div className="text-white md:px-20 px-10 mx-auto">
       <nav className="w-full  flex justify-between flex-row items-center py-4 md:py-8">
@@ -9,17 +18,26 @@ const LandingPage = () => {
           Trackcare
         </div>
         <div>
-          <Link to={'/login'}>
-            <button className="md:px-4 md:py-2 px-2 py-1 text-sm md:text-base rounded-xl border border-[#FF520E] hover:text-[#FF520E] transition-all hover:-translate-y-1">
-              Login
+          {token ? (
+            <button
+              onClick={handleLogout}
+              className="md:px-4 md:py-2 px-2 py-1 text-sm md:text-base rounded-xl border border-[#2DFF52] hover:text-[#2DFF52] transition-all hover:-translate-y-1"
+            >
+              logout
             </button>
-          </Link>
+          ) : (
+            <Link to={'/login'}>
+              <button className="md:px-4 md:py-2 px-2 py-1 text-sm md:text-base rounded-xl border border-[#2DFF52] hover:text-[#2DFF52] transition-all hover:-translate-y-1">
+                Login
+              </button>
+            </Link>
+          )}
         </div>
       </nav>
       <div className="py-10">
         <h1 className="text-[5vw] font-inter leading-none w-3/4 font-medium">
           Streamline patient records with{' '}
-          <span className="text-[#FF520E]">Trackcare.</span>
+          <span className="text-[#2DFF52]">Trackcare.</span>
         </h1>
         <p className="py-4 sm:text-xl text-slate-200 text-sm ">
           Aligning Care, Simplifying Records.
@@ -46,7 +64,7 @@ const LandingPage = () => {
         ].map((item, index) => {
           return (
             <div
-              className="relative flex flex-col my-3  mx-3 bg-transparent hover:bg-card-gradient shadow-sm border border-[#ff520e51] rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60 p-4 text-start transition-all ease-in duration-500 hover:-translate-y-1"
+              className="relative flex flex-col my-3  mx-3 bg-transparent hover:bg-card-gradient shadow-sm border border-[#2DFF5251] rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60 p-4 text-start transition-all ease-in duration-300 hover:-translate-y-1"
               key={index}
             >
               <div className="flex items-center p-2">
