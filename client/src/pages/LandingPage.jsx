@@ -9,6 +9,10 @@ const LandingPage = () => {
   const handleLogout = () => {
     setToken(false);
     toast.success('succefully log out ');
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setToken(null);
+    toast.success('succefully log out ');
   };
 
   return (
