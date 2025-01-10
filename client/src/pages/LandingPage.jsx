@@ -7,7 +7,9 @@ const LandingPage = () => {
   const { token, setToken } = useContext(AppContext);
 
   const handleLogout = () => {
-    setToken(false);
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    setToken(null);
     toast.success("succefully log out ");
   };
 

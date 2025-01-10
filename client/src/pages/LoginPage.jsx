@@ -36,6 +36,7 @@ const LoginPage = () => {
 
       if (data.success) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("role", role);
         setToken(data.token);
         toast.success("Login successful");
       } else {
@@ -49,10 +50,12 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (token) {
-      navigate("/");
+    if (token && role === "admin") {
+      navigate("/admin-dashboard");
+    } else if (token && role === "doctor") {
+      navigate("/doctor-dashboard");
     }
-  }, [token]);
+  }, [navigate, role, token]);
 
   return (
     <div className="flex justify-center items-center w-full h-screen">
@@ -77,7 +80,7 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="name@doctor.com"
-            requigreen
+            required
           />
         </div>
         <div className="mb-5">
@@ -92,7 +95,7 @@ const LoginPage = () => {
             id="password"
             onChange={(e) => setPassword(e.target.value)}
             className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
-            requigreen
+            required
           />
         </div>
         {role === "admin" ? (
