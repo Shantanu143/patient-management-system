@@ -58,7 +58,7 @@ const LoginPage = () => {
     <div className="flex justify-center items-center w-full h-screen">
       <form
         onSubmit={submitForm}
-        className="min-w-40 w-2/6 mx-auto border border-green-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
+        className="min-w-80 w-2/6 mx-auto border border-green-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
       >
         <h1 className="text-2xl font-medium text-white pb-5">
           Login as {role === 'admin' ? 'admin' : 'doctor'}

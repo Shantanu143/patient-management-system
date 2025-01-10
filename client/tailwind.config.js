@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}', // Include your React files
+    './node_modules/flowbite/**/*.js', // Include Flowbite's JavaScript
+  ],
   theme: {
     extend: {
       backgroundImage: {
@@ -12,7 +15,12 @@ export default {
       fontFamily: {
         inter: ['inter', 'sans-serif'],
       },
+      colors: {
+        customBlue: '#4880FF',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin'), // Enable Flowbite plugin
+  ],
 };
