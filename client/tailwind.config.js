@@ -15,9 +15,6 @@ export default {
       fontFamily: {
         inter: ['inter', 'sans-serif'],
       },
-      colors: {
-        customBlue: '#4880FF',
-      },
     },
   },
   plugins: [

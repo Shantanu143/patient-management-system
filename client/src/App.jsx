@@ -11,7 +11,7 @@ import DoctorDashboard from './pages/DoctorDashboard';
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-custom-gradient">
+    <div className="min-h-screen ">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />

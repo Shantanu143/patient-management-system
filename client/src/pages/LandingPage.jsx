@@ -16,7 +16,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="text-white md:px-20 px-10 mx-auto">
+    <div className="text-white md:px-20 px-10 mx-auto bg-custom-gradient">
       <nav className="w-full  flex justify-between flex-row items-center py-4 md:py-8">
         <div className="uppercase font-bold transition-all hover:-translate-y-1">
           Trackcare

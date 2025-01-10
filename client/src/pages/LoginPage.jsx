@@ -58,7 +58,7 @@ const LoginPage = () => {
   }, [navigate, role, token]);
 
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <div className="flex justify-center items-center w-full h-screen bg-custom-gradient">
       <form
         onSubmit={submitForm}
         className="min-w-80 w-2/6 mx-auto border border-green-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
