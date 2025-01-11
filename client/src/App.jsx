@@ -1,17 +1,17 @@
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import LandingPage from "./pages/LandingPage";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
+import LandingPage from './pages/LandingPage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
 
-import ProtectedRoute from "./Routes/ProtectedRoute";
-import AdminDashboard from "./pages/AdminDashboard";
-import DoctorDashboard from "./pages/DoctorDashboard";
+import ProtectedRoute from './Routes/ProtectedRoute';
+import AdminDashboard from './pages/AdminDashboard';
+import DoctorDashboard from './pages/DoctorDashboard';
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-custom-gradient">
+    <div className="min-h-screen ">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />

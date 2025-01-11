@@ -1,8 +1,14 @@
+import React from 'react';
+import Navbar from '../components/Navbar';
+import AddUser from '../components/AddUser';
 
 const AdminDashboard = () => {
   return (
-    <div>AdminDashboard</div>
-  )
-}
+    <div className="h-screen bg-[#F5F6FA]">
+      <Navbar />
+      <AddUser />
+    </div>
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;
