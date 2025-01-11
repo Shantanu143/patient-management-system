@@ -106,6 +106,21 @@ const registerDoctor = async (req, res) => {
   }
 };
 
+// API to get all the doctors
+
+const getAllDoctors = async (req, res) => {
+  try {
+    const doctors = await doctorModel.find({}).select("-password");
+    res.status(200).json({ success: true, doctors });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Get All Doctor Error : " + error.message,
+    });
+  }
+};
+
+// API to update doctor
 const updateDoctor = async (req, res) => {
   try {
     const {
@@ -202,4 +217,38 @@ const updateDoctor = async (req, res) => {
   }
 };
 
-export { registerDoctor, loginAdmin, updateDoctor };
+const deleteDoctor = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    if (!docId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Doctor id requrired" });
+    }
+    const deleteDoctor = await doctorModel.findByIdAndDelete(docId);
+
+    if (!deleteDoctor) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Doctor does not exist !!" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "Doctor deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Delete doctor Error : " + error.message,
+    });
+  }
+};
+
+export {
+  registerDoctor,
+  loginAdmin,
+  updateDoctor,
+  getAllDoctors,
+  deleteDoctor,
+};
