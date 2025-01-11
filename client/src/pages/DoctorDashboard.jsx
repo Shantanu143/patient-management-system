@@ -1,17 +1,17 @@
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
   const { setToken } = useContext(AppContext);
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
     setToken(null);
-    navigate("/login");
-    toast.success("succefully log out ");
+    navigate('/login');
+    toast.success('succefully log out ');
   };
   return (
     <div>

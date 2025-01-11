@@ -1,15 +1,15 @@
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ element, requiredRole }) => {
   const navigate = useNavigate();
   const { token } = useContext(AppContext);
 
-  const storedRole = localStorage.getItem("role");
+  const storedRole = localStorage.getItem('role');
   if (!token) {
-    navigate("/login");
+    navigate('/login');
   }
   if (storedRole !== requiredRole) {
     return (
