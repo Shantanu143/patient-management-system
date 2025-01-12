@@ -10,12 +10,13 @@ const AppContextProvider = (props) => {
     localStorage.getItem("token") ? localStorage.getItem("token") : false
   );
 
+  const [refresh, setRefresh] = useState(false);
   const [allDoctors, setAllDoctor] = useState([]);
 
   const fetchAllDoctors = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/admin/get-all-doctors", {
-        headers: { token },
+        headers: { atoken: token },
       });
       if (data.success) {
         setAllDoctor(data.doctors);
@@ -31,13 +32,15 @@ const AppContextProvider = (props) => {
 
   useState(() => {
     fetchAllDoctors();
-  }, [allDoctors]);
+  }, [refresh]);
 
   const value = {
     backendUrl,
     token,
     setToken,
     allDoctors,
+    refresh,
+    setRefresh,
   };
 
   return (

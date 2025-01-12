@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const authAdmin = async (req, res, next) => {
   try {
-    const { token: atoken } = req.headers;
+    const { atoken } = req.headers;
 
     // check if token exits
     if (!atoken) {
