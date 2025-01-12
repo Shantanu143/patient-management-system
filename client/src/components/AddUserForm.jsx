@@ -1,12 +1,42 @@
-import React from 'react';
+import { useState } from "react";
 
 const AddUserForm = () => {
+  const [doctor, setDoctor] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    specialization: "",
+    availability: {
+      hours: {
+        start: "",
+        end: "",
+      },
+      days: {
+        start: "",
+        end: "",
+      },
+    },
+  });
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setDoctor({ ...doctor, [id]: value });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    console.log(doctor);
+  };
+
   return (
     <div className="sm:ml-64 pt-20 px-10">
       <div className="flex items-center justify-start mb-6">
         <h3 className="text-2xl font-semibold">Add Doctor</h3>
       </div>
-      <form className="max-w-3xl mx-auto px-10 py-6 border-2 bg-white rounded-xl flex flex-col md:flex-row flex-wrap">
+      <form
+        onSubmit={handleFormSubmit}
+        className="max-w-3xl mx-auto px-10 py-6 border-2 bg-white rounded-xl flex flex-col md:flex-row flex-wrap"
+      >
         <div className="p-2 md:w-1/2">
           <label
             htmlFor="name"
@@ -17,6 +47,8 @@ const AddUserForm = () => {
           <input
             type="text"
             id="name"
+            value={doctor.name}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="John Doe"
             required
@@ -32,6 +64,8 @@ const AddUserForm = () => {
           <input
             type="email"
             id="email"
+            value={doctor.email}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="doctor@gmail.com"
             required
@@ -47,6 +81,8 @@ const AddUserForm = () => {
           <input
             type="password"
             id="password"
+            value={doctor.password}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="********"
             required
@@ -62,6 +98,8 @@ const AddUserForm = () => {
           <input
             type="tel"
             id="phone"
+            value={doctor.phone}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="+1234567894"
             required
@@ -77,6 +115,8 @@ const AddUserForm = () => {
           <input
             type="text"
             id="specialization"
+            value={doctor.specialization}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Psychiatrist"
             required
@@ -91,16 +131,19 @@ const AddUserForm = () => {
             <div className="w-full md:w-1/2 flex flex-row gap-2 items-start justify-start p-2">
               <div className="w-1/2">
                 <label
-                  for="start_day"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="start_day"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
                   Start Day
                 </label>
                 <select
                   id="start_day"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={doctor.availability.days.start}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
                 >
-                  <option value="Sunday" selected>
+                  <option   value={doctor.availability.days.start} selected>
                     Sunday
                   </option>
                   <option value="Monday">Monday</option>
@@ -113,14 +156,16 @@ const AddUserForm = () => {
               </div>
               <div className="w-1/2">
                 <label
-                  for="end_day"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="end_day"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
                   End Day
                 </label>
                 <select
                   id="end_day"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={doctor.availability.days.end}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option value="Sunday" selected>
                     Sunday
@@ -139,68 +184,66 @@ const AddUserForm = () => {
             <div className="w-full md:w-1/2 flex flex-row gap-2 items-start justify-start p-2">
               <div className="w-1/2">
                 <label
-                  for="start-time"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="start-time"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
                   Start time:
                 </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                <div className="relative">
+                  <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                     <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   </div>
                   <input
-                    type="time"
+                    type="text"
                     id="start-time"
-                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    min="09:00"
-                    max="18:00"
-                    value="00:00"
+                    className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value={doctor.availability.hours.start}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
               </div>
               <div className="w-1/2">
                 <label
-                  for="end-time"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="end-time"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
                   End time:
                 </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                <div className="relative">
+                  <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                     <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   </div>
                   <input
-                    type="time"
+                    type="text"
                     id="end-time"
-                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    min="09:00"
-                    max="18:00"
-                    value="00:00"
+                    className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value={doctor.availability.hours.end}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>

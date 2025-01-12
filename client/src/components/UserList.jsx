@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
+import { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
-  const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
-
-  const doctors = [
-    {
-      name: 'Omkar Jadhav',
-      address: 'kothrud,pune',
-      date: '2025-01-10',
-      category: 'gastrotechnician',
-    },
-  ];
+  const { allDoctors } = useContext(AppContext);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Filter products based on the search query
-  const filteredDoctors = doctors.filter((doctor) =>
-    doctor.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredDoctors = allDoctors.filter((allDoctors) =>
+    allDoctors.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -79,36 +73,50 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredDoctors.map((product, index) => (
+            {filteredDoctors.map((data, index) => (
               <tr
                 key={index}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                <td className="px-6 py-4">{index}</td>
+                <td className="px-6 py-4">{index + 1}</td>
                 <th
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   <div className="flex flex-col items-start justify-start">
-                    <div> {product.name}</div>
+                    <div> {data.name}</div>
                     <div className="text-xs text-gray-400 font-light">
-                      omkar@gmail.com
+                      {data.email}
                     </div>
                   </div>
                 </th>
-                <td className="px-6 py-4">98989 12345</td>
+                <td className="px-6 py-4">{data.phone}</td>
                 <td className="px-6 py-4">
                   <div className="flex flex-col items-start justify-center">
-                    <div>Date</div>
-                    <div>Time</div>
+                    <div>
+                      {data.availability.hours.start} -
+                      {data.availability.hours.end}
+                    </div>
+                    <div>
+                      {" "}
+                      {data.availability.days[0]} -{" "}
+                      {
+                        data.availability.days[
+                          data.availability.days.length - 1
+                        ]
+                      }
+                    </div>
                   </div>
                 </td>
-                <td className="px-6 py-4">"Psychiatrist"</td>
+                <td className="px-6 py-4">{data.specialization}</td>
                 <td className="px-6 py-4">
                   <div className="flex flex-row md:items-center gap-2">
-                    <button className="font-medium text-[#6226EF] bg-buttonPurple px-2 py-1 rounded-md hover:underline">
+                    <Link
+                      to={`/admin-dashboard/edit-doctor/${data._id}`}
+                      className="font-medium text-[#6226EF] bg-buttonPurple px-2 py-1 rounded-md hover:underline"
+                    >
                       Edit
-                    </button>
+                    </Link>
                     <button className="font-medium text-[#EF3826] bg-buttonOrange px-2 py-1 rounded-md dark:text-blue-500 hover:underline">
                       Delete
                     </button>

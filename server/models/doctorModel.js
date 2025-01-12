@@ -26,8 +26,14 @@ const DoctorSchema = new mongoose.Schema(
     },
     availability: {
       days: {
-        type: [String],
-        require: true,
+        start: {
+          type: String,
+          require: true,
+        },
+        end: {
+          type: String,
+          require: true,
+        },
       },
       hours: {
         start: {

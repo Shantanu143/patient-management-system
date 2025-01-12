@@ -1,23 +1,7 @@
-import React from 'react';
-import 'flowbite';
+import "flowbite";
+import { Link } from "react-router-dom";
 
-const Navbar = ({ setAdminDashboard, setAddUser, setManageUsers }) => {
-  const handleAdminDashboard = () => {
-    setAddUser(false);
-    setManageUsers(false);
-    setAdminDashboard(true);
-  };
-  const handleAddUser = () => {
-    setManageUsers(false);
-    setAdminDashboard(false);
-    setAddUser(true);
-  };
-  const handleShowUsers = () => {
-    setAddUser(false);
-    setAdminDashboard(false);
-    setManageUsers(true);
-  };
-
+const Navbar = () => {
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 ">
@@ -145,10 +129,10 @@ const Navbar = ({ setAdminDashboard, setAddUser, setManageUsers }) => {
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white ">
           <ul className="space-y-2 font-medium">
             <li>
-              <a
+              <Link
                 href="#"
                 className="flex items-center p-2 text-gray-900 hover:text-white rounded-lg  hover:bg-[#4880FF] group"
-                onClick={handleAdminDashboard}
+                to={"/admin-dashboard"}
               >
                 <svg
                   className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-white"
@@ -161,13 +145,12 @@ const Navbar = ({ setAdminDashboard, setAddUser, setManageUsers }) => {
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
                 <span className="ms-3">Admin Dashboard</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
                 className="flex items-center p-2 text-gray-900 hover:text-white rounded-lg  hover:bg-[#4880FF] dark:hover:bg-gray-700 group"
-                onClick={handleAddUser}
+                to={"/admin-dashboard/add-doctor"}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
@@ -183,13 +166,13 @@ const Navbar = ({ setAdminDashboard, setAddUser, setManageUsers }) => {
                 <span className="flex-1 ms-3 whitespace-nowrap">
                   Add Doctor
                 </span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-[#4880FF] hover:text-white group"
-                onClick={handleShowUsers}
+                to={"/admin-dashboard/all-doctor"}
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
@@ -203,7 +186,7 @@ const Navbar = ({ setAdminDashboard, setAddUser, setManageUsers }) => {
                 <span className="flex-1 ms-3 whitespace-nowrap">
                   Manage Users
                 </span>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
