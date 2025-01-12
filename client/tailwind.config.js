@@ -15,6 +15,10 @@ export default {
       fontFamily: {
         inter: ['inter', 'sans-serif'],
       },
+      colors: {
+        buttonPurple: 'rgba(98, 38, 239, 0.2)',
+        buttonOrange: 'rgba(239, 56, 38, 0.2)',
+      },
     },
   },
   plugins: [

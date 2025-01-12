@@ -19,39 +19,42 @@ const UserList = () => {
 
   return (
     <div className="sm:ml-64 pt-20 px-10">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="pb-4 bg-white dark:bg-gray-900">
-          <label htmlFor="table-search" className="sr-only">
-            Search
-          </label>
-          <div className="relative mt-1">
-            <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <input
-              type="text"
-              id="table-search"
-              value={searchQuery} // Bind search query state
-              onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
-              className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search for items"
-            />
+      <div className="flex items-center justify-start mb-6">
+        <h3 className="text-2xl font-semibold">Manage Doctors</h3>
+      </div>
+      <div className="pb-4">
+        <label htmlFor="table-search" className="sr-only">
+          Search
+        </label>
+        <div className="relative mt-1">
+          <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg
+              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
           </div>
+          <input
+            type="text"
+            id="table-search"
+            value={searchQuery} // Bind search query state
+            onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
+            className="block pt-2 ps-10 text-sm text-gray-900 border bg-transparent border-gray-300 rounded-3xl w-80 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Search for items"
+          />
         </div>
+      </div>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -62,13 +65,13 @@ const UserList = () => {
                 Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Date
+                Phone
               </th>
               <th scope="col" className="px-6 py-3">
-                Category
+                Availability
               </th>
               <th scope="col" className="px-6 py-3">
-                Address
+                Specialization
               </th>
               <th scope="col" className="px-6 py-3">
                 Action
@@ -86,18 +89,30 @@ const UserList = () => {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {product.name}
+                  <div className="flex flex-col items-start justify-start">
+                    <div> {product.name}</div>
+                    <div className="text-xs text-gray-400 font-light">
+                      omkar@gmail.com
+                    </div>
+                  </div>
                 </th>
-                <td className="px-6 py-4">{product.date}</td>
-                <td className="px-6 py-4">{product.category}</td>
-                <td className="px-6 py-4">{product.address}</td>
+                <td className="px-6 py-4">98989 12345</td>
                 <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                  >
-                    Edit
-                  </a>
+                  <div className="flex flex-col items-start justify-center">
+                    <div>Date</div>
+                    <div>Time</div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">"Psychiatrist"</td>
+                <td className="px-6 py-4">
+                  <div className="flex flex-row md:items-center gap-2">
+                    <button className="font-medium text-[#6226EF] bg-buttonPurple px-2 py-1 rounded-md hover:underline">
+                      Edit
+                    </button>
+                    <button className="font-medium text-[#EF3826] bg-buttonOrange px-2 py-1 rounded-md dark:text-blue-500 hover:underline">
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
