@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddUserForm = () => {
+const EditUserDoctor = () => {
   return (
     <div className="sm:ml-64 pt-20 px-10">
       <div className="flex items-center justify-start mb-6">
@@ -222,4 +222,4 @@ const AddUserForm = () => {
   );
 };
 
-export default AddUserForm;
+export default EditUserDoctor;
