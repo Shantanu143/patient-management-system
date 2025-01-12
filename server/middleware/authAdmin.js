@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const authAdmin = async (req, res, next) => {
   try {
-    const { atoken } = req.headers;
+    const { token: atoken } = req.headers;
 
     // check if token exits
     if (!atoken) {
@@ -16,7 +16,10 @@ const authAdmin = async (req, res, next) => {
     const decodedToken = jwt.verify(atoken, process.env.JWT_SECRET);
 
     let email = process.env.ADMIN_EMAIL;
-    if (decodedToken.email !== email || decodedToken.role != "admin") {
+    if (
+      decodedToken.email !== email ||
+      decodedToken.role != process.env.ADMIN_ROLE
+    ) {
       return res.status(401).json({
         success: false,
         message: "Not Authorized. Admin access required.",
@@ -38,7 +41,7 @@ const authAdmin = async (req, res, next) => {
     if (error.name == "JsonWebTokenError") {
       return res.status(401).send({
         success: false,
-        message: "Invalid token. Plaese log in again",
+        message: "Invalid token. Please log in again",
       });
     }
 
