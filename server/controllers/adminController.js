@@ -14,7 +14,7 @@ const loginAdmin = async (req, res) => {
       email == process.env.ADMIN_EMAIL &&
       password == process.env.ADMIN_PASSWORD
     ) {
-      const role = process.env.ROLE;
+      const role = process.env.ADMIN_ROLE;
       const payload = { email, role };
 
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
