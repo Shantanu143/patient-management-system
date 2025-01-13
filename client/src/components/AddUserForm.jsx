@@ -1,6 +1,10 @@
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import axios from "axios";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 const AddUserForm = () => {
+  const { backendUrl, token } = useContext(AppContext);
+
   const [doctor, setDoctor] = useState({
     name: "",
     email: "",
@@ -26,6 +30,31 @@ const AddUserForm = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     console.log(doctor);
+    addDoctor(doctor);
+  };
+
+  const addDoctor = async (doctor) => {
+    try {
+      const response = await axios.post(
+        `${backendUrl}/admin/register-doctor`,
+        doctor,
+        {
+          headers: { atoken: token },
+        }
+      );
+
+      if (response?.data?.success) {
+        toast.success("Doctor added successfully");
+      } else {
+        toast.error(response?.data?.message || "Failed to add doctor");
+      }
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+      toast.error(errorMessage);
+    }
   };
 
   return (
@@ -143,7 +172,7 @@ const AddUserForm = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 >
-                  <option   value={doctor.availability.days.start} selected>
+                  <option value="Sunday" selected>
                     Sunday
                   </option>
                   <option value="Monday">Monday</option>
