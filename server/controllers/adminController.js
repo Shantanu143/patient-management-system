@@ -37,7 +37,7 @@ const loginAdmin = async (req, res) => {
 // API to register a doctor
 const registerDoctor = async (req, res) => {
   try {
-    const { name, email, password, specialization, phone, availability, role } =
+    const { name, email, password, specialization, phone, availability } =
       req.body;
 
     if (
@@ -46,8 +46,7 @@ const registerDoctor = async (req, res) => {
       !password ||
       !specialization ||
       !phone ||
-      !availability ||
-      !role
+      !availability
     ) {
       return res
         .status(401)
@@ -90,7 +89,7 @@ const registerDoctor = async (req, res) => {
       specialization,
       phone,
       availability,
-      role,
+      role: "doctor",
     };
 
     const newDoctor = new doctorModel(doctorData);

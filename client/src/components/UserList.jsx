@@ -1,15 +1,33 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const UserList = () => {
-  const { allDoctors } = useContext(AppContext);
+  const { allDoctors, backendUrl, token } = useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter products based on the search query
   const filteredDoctors = allDoctors.filter((allDoctors) =>
     allDoctors.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const deleteDoctor = async (_id) => {
+    try {
+      const { data } = await axios.delete(backendUrl + "/admin/delete-doctor", {
+        headers: { atoken: token },
+        data: { docId: _id },
+      });
+      if (data.success) {
+        toast.success("success");
+      } else {
+        toast.error("false");
+      }
+    } catch (error) {
+      toast.error("delete doctor catch block error : " + error.message);
+    }
+  };
 
   return (
     <div className="sm:ml-64 pt-20 px-10">
@@ -117,7 +135,10 @@ const UserList = () => {
                     >
                       Edit
                     </Link>
-                    <button className="font-medium text-[#EF3826] bg-buttonOrange px-2 py-1 rounded-md dark:text-blue-500 hover:underline">
+                    <button
+                      onClick={() => deleteDoctor(data._id)}
+                      className="font-medium text-[#EF3826] bg-buttonOrange px-2 py-1 rounded-md dark:text-blue-500 hover:underline"
+                    >
                       Delete
                     </button>
                   </div>

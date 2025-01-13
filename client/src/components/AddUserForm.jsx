@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { AppContext } from "../context/AppContext";
 import { toast } from "react-toastify";
+
 const AddUserForm = () => {
   const { backendUrl, token } = useContext(AppContext);
 
@@ -22,9 +23,39 @@ const AddUserForm = () => {
       },
     },
   });
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setDoctor({ ...doctor, [id]: value });
+    if (id.includes("start_day") || id.includes("end_day")) {
+      // Updating the days object
+      const day = id.includes("start_day") ? "start" : "end";
+      setDoctor({
+        ...doctor,
+        availability: {
+          ...doctor.availability,
+          days: {
+            ...doctor.availability.days,
+            [day]: value,
+          },
+        },
+      });
+    } else if (id.includes("start-time") || id.includes("end-time")) {
+      // Updating the hours object
+      const time = id.includes("start-time") ? "start" : "end";
+      setDoctor({
+        ...doctor,
+        availability: {
+          ...doctor.availability,
+          hours: {
+            ...doctor.availability.hours,
+            [time]: value,
+          },
+        },
+      });
+    } else {
+      // Updating other fields
+      setDoctor({ ...doctor, [id]: value });
+    }
   };
 
   const handleFormSubmit = (e) => {
@@ -156,7 +187,7 @@ const AddUserForm = () => {
             Availability
           </p>
           <div className="w-full flex flex-row flex-wrap items-center justify-center">
-            {/* day */}
+            {/* Day selectors */}
             <div className="w-full md:w-1/2 flex flex-row gap-2 items-start justify-start p-2">
               <div className="w-1/2">
                 <label
@@ -172,15 +203,19 @@ const AddUserForm = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 >
-                  <option value="Sunday" selected>
-                    Sunday
-                  </option>
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                  <option value="Saturday">Saturday</option>
+                  {[
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ].map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="w-1/2">
@@ -195,87 +230,58 @@ const AddUserForm = () => {
                   value={doctor.availability.days.end}
                   onChange={handleInputChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
                 >
-                  <option value="Sunday" selected>
-                    Sunday
-                  </option>
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                  <option value="Saturday">Saturday</option>
+                  {[
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ].map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
-            {/* time */}
+            {/* Time selectors */}
             <div className="w-full md:w-1/2 flex flex-row gap-2 items-start justify-start p-2">
               <div className="w-1/2">
                 <label
                   htmlFor="start-time"
                   className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
-                  Start time:
+                  Start time
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="text"
-                    id="start-time"
-                    className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={doctor.availability.hours.start}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
+                <input
+                  type="time"
+                  id="start-time"
+                  value={doctor.availability.hours.start}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
               </div>
               <div className="w-1/2">
                 <label
                   htmlFor="end-time"
                   className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
-                  End time:
+                  End time
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="text"
-                    id="end-time"
-                    className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={doctor.availability.hours.end}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
+                <input
+                  type="time"
+                  id="end-time"
+                  value={doctor.availability.hours.end}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
               </div>
             </div>
           </div>
