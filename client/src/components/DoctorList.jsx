@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
-import { AppContext } from "../context/AppContext";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { useContext, useState } from 'react';
+import { AppContext } from '../context/AppContext';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
-const UserList = () => {
+const DoctorList = () => {
   const { allDoctors, backendUrl, token } = useContext(AppContext);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Filter products based on the search query
   const filteredDoctors = allDoctors.filter((allDoctors) =>
@@ -15,17 +15,17 @@ const UserList = () => {
 
   const deleteDoctor = async (_id) => {
     try {
-      const { data } = await axios.delete(backendUrl + "/admin/delete-doctor", {
+      const { data } = await axios.delete(backendUrl + '/admin/delete-doctor', {
         headers: { atoken: token },
         data: { docId: _id },
       });
       if (data.success) {
-        toast.success("success");
+        toast.success('success');
       } else {
-        toast.error("false");
+        toast.error('false');
       }
     } catch (error) {
-      toast.error("delete doctor catch block error : " + error.message);
+      toast.error('delete doctor catch block error : ' + error.message);
     }
   };
 
@@ -116,8 +116,8 @@ const UserList = () => {
                       {data.availability.hours.end}
                     </div>
                     <div>
-                      {" "}
-                      {data.availability.days[0]} -{" "}
+                      {' '}
+                      {data.availability.days[0]} -{' '}
                       {
                         data.availability.days[
                           data.availability.days.length - 1
@@ -152,4 +152,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default DoctorList;

@@ -28,7 +28,7 @@ const App = () => {
             }
           />
           <Route
-            path="/doctor-dashboard"
+            path="/doctor-dashboard/*"
             element={
               <ProtectedRoute
                 requiredRole="doctor"
