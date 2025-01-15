@@ -4,9 +4,14 @@ import bcrypt from "bcrypt";
 
 const loginDoctor = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
+    if (role !== "doctor") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid role for this login endpoint.",
+      });
+    }
     const doctor = await doctorModel.findOne({ email });
-
     if (!doctor) {
       return res
         .status(404)
@@ -16,11 +21,8 @@ const loginDoctor = async (req, res) => {
     const isMatch = await bcrypt.compare(password, doctor.password);
 
     if (isMatch) {
-      const token = jwt.sign(
-        { id: doctor._id, role: "doctor" },
-        process.env.JWT_SECRET
-      );
-      res.status(201).json({ success: true, token });
+      const token = jwt.sign({ id: doctor._id, role }, process.env.JWT_SECRET);
+      res.status(201).json({ success: true, token, role: "doctor" });
     } else {
       res.status(401).json({ success: true, message: "Invalid Credinatial" });
     }

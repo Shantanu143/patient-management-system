@@ -1,10 +1,110 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AppContext } from "../context/AppContext";
+
 const EditDoctorForm = () => {
+  const { backendUrl, token, editDoctor } = useContext(AppContext);
+  const { id } = useParams();
+
+  const [doctorData, setDoctorData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    specialization: "",
+    availability: {
+      startDay: "",
+      endDay: "",
+      startTime: "",
+      endTime: "",
+    },
+  });
+
+  const fetchDoctorsDetails = async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/admin/get-doctor/${id}`, {
+        headers: { atoken: token },
+      });
+
+      if (data.success) {
+        const doctor = data.doctor;
+        setDoctorData({
+          name: doctor.name,
+          email: doctor.email,
+          password: "",
+          phone: doctor.phone,
+          specialization: doctor.specialization,
+          availability: {
+            startDay: doctor.availability.startDay,
+            endDay: doctor.availability.endDay,
+            startTime: doctor.availability.startTime,
+            endTime: doctor.availability.endTime,
+          },
+        });
+      } else {
+        toast.error("Error fetching doctor details");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchDoctorsDetails();
+  }, [id]);
+
+  // const handleInputChange = (e) => {
+  //   const { id, value } = e.target;
+  //   setFormValues((prev) => ({ ...prev, [id]: value }));
+  // };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+
+    if (
+      id === "start_day" ||
+      id === "end_day" ||
+      id === "start-time" ||
+      id === "end-time"
+    ) {
+      setDoctorData((prevData) => ({
+        ...prevData,
+        availability: {
+          ...prevData.availability,
+          [id === "start_day"
+            ? "startDay"
+            : id === "end_day"
+            ? "endDay"
+            : id === "start-time"
+            ? "startTime"
+            : "endTime"]: value,
+        },
+      }));
+    } else {
+      setDoctorData((prevData) => ({
+        ...prevData,
+        [id]: value,
+      }));
+    }
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const updatedDoctorData = { ...doctorData, _id: id };
+    editDoctor(updatedDoctorData);
+  };
+
   return (
     <div className="sm:ml-64 pt-20 px-10">
       <div className="flex items-center justify-start mb-6">
-        <h3 className="text-2xl font-semibold">Add Doctor</h3>
+        <h3 className="text-2xl font-semibold">Edit Doctor</h3>
       </div>
-      <form className="max-w-3xl mx-auto px-10 py-6 border-2 bg-white rounded-xl flex flex-col md:flex-row flex-wrap">
+      <form
+        onSubmit={handleFormSubmit}
+        className="max-w-3xl mx-auto px-10 py-6 border-2 bg-white rounded-xl flex flex-col md:flex-row flex-wrap"
+      >
         <div className="p-2 md:w-1/2">
           <label
             htmlFor="name"
@@ -15,6 +115,8 @@ const EditDoctorForm = () => {
           <input
             type="text"
             id="name"
+            value={doctorData.name}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="John Doe"
             required
@@ -30,6 +132,8 @@ const EditDoctorForm = () => {
           <input
             type="email"
             id="email"
+            value={doctorData.email}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="doctor@gmail.com"
             required
@@ -45,6 +149,8 @@ const EditDoctorForm = () => {
           <input
             type="password"
             id="password"
+            value={doctorData.password}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="********"
             required
@@ -60,6 +166,8 @@ const EditDoctorForm = () => {
           <input
             type="tel"
             id="phone"
+            value={doctorData.phone}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="+1234567894"
             required
@@ -75,6 +183,8 @@ const EditDoctorForm = () => {
           <input
             type="text"
             id="specialization"
+            value={doctorData.specialization}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Psychiatrist"
             required
@@ -85,134 +195,112 @@ const EditDoctorForm = () => {
             Availability
           </p>
           <div className="w-full flex flex-row flex-wrap items-center justify-center">
-            {/* day */}
+            {/* Day selectors */}
             <div className="w-full md:w-1/2 flex flex-row gap-2 items-start justify-start p-2">
               <div className="w-1/2">
                 <label
-                  for="start_day"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="start_day"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
                   Start Day
                 </label>
                 <select
                   id="start_day"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={doctorData.availability.startDay}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
                 >
-                  <option value="Sunday" selected>
-                    Sunday
-                  </option>
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                  <option value="Saturday">Saturday</option>
+                  {[
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ].map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="w-1/2">
                 <label
-                  for="end_day"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="end_day"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
                   End Day
                 </label>
                 <select
                   id="end_day"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={doctorData.availability.endDay}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
                 >
-                  <option value="Sunday" selected>
-                    Sunday
-                  </option>
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                  <option value="Saturday">Saturday</option>
+                  {[
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ].map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
-            {/* time */}
+            {/* Time selectors */}
             <div className="w-full md:w-1/2 flex flex-row gap-2 items-start justify-start p-2">
               <div className="w-1/2">
                 <label
-                  for="start-time"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="start-time"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
-                  Start time:
+                  Start time
                 </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                    <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="time"
-                    id="start-time"
-                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    min="09:00"
-                    max="18:00"
-                    value="00:00"
-                    required
-                  />
-                </div>
+                <input
+                  type="time"
+                  id="start-time"
+                  value={doctorData.availability.startTime}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
               </div>
               <div className="w-1/2">
                 <label
-                  for="end-time"
-                  class="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
+                  htmlFor="end-time"
+                  className="block mb-2 text-sm text-gray-600 font-normal dark:text-white"
                 >
-                  End time:
+                  End time
                 </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                    <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="time"
-                    id="end-time"
-                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    min="09:00"
-                    max="18:00"
-                    value="00:00"
-                    required
-                  />
-                </div>
+                <input
+                  type="time"
+                  id="end-time"
+                  value={doctorData.availability.endTime}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="w-full">
+        <div className="p-2 w-full">
           <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-1"
           >
-            Add Now
+            Update Doctor
           </button>
         </div>
       </form>

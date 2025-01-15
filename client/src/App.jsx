@@ -12,7 +12,7 @@ import DoctorDashboard from './pages/DoctorDashboard';
 const App = () => {
   return (
     <div className="min-h-screen ">
-      <BrowserRouter>
+   
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -37,7 +37,7 @@ const App = () => {
             }
           />
         </Routes>
-      </BrowserRouter>
+  
       <ToastContainer />
     </div>
   );

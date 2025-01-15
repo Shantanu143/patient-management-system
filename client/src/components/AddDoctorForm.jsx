@@ -1,91 +1,58 @@
-import { useContext, useState } from 'react';
-import axios from 'axios';
-import { AppContext } from '../context/AppContext';
-import { toast } from 'react-toastify';
+import { useContext, useState } from "react";
+
+import { AppContext } from "../context/AppContext";
 
 const AddDoctorForm = () => {
-  const { backendUrl, token } = useContext(AppContext);
+  const { addDoctor } = useContext(AppContext);
 
-  const [doctor, setDoctor] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-    specialization: '',
+  const [doctorData, setDoctorData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    specialization: "",
     availability: {
-      hours: {
-        start: '',
-        end: '',
-      },
-      days: {
-        start: '',
-        end: '',
-      },
+      startDay: "",
+      endDay: "",
+      startTime: "",
+      endTime: "",
     },
   });
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    if (id.includes('start_day') || id.includes('end_day')) {
-      // Updating the days object
-      const day = id.includes('start_day') ? 'start' : 'end';
-      setDoctor({
-        ...doctor,
+
+    if (
+      id === "start_day" ||
+      id === "end_day" ||
+      id === "start-time" ||
+      id === "end-time"
+    ) {
+      setDoctorData((prevData) => ({
+        ...prevData,
         availability: {
-          ...doctor.availability,
-          days: {
-            ...doctor.availability.days,
-            [day]: value,
-          },
+          ...prevData.availability,
+          [id === "start_day"
+            ? "startDay"
+            : id === "end_day"
+            ? "endDay"
+            : id === "start-time"
+            ? "startTime"
+            : "endTime"]: value,
         },
-      });
-    } else if (id.includes('start-time') || id.includes('end-time')) {
-      // Updating the hours object
-      const time = id.includes('start-time') ? 'start' : 'end';
-      setDoctor({
-        ...doctor,
-        availability: {
-          ...doctor.availability,
-          hours: {
-            ...doctor.availability.hours,
-            [time]: value,
-          },
-        },
-      });
+      }));
     } else {
-      // Updating other fields
-      setDoctor({ ...doctor, [id]: value });
+      setDoctorData((prevData) => ({
+        ...prevData,
+        [id]: value,
+      }));
     }
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(doctor);
-    addDoctor(doctor);
-  };
-
-  const addDoctor = async (doctor) => {
-    try {
-      const response = await axios.post(
-        `${backendUrl}/admin/register-doctor`,
-        doctor,
-        {
-          headers: { atoken: token },
-        }
-      );
-
-      if (response?.data?.success) {
-        toast.success('Doctor added successfully');
-      } else {
-        toast.error(response?.data?.message || 'Failed to add doctor');
-      }
-    } catch (error) {
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
-        'Something went wrong';
-      toast.error(errorMessage);
-    }
+    console.log(doctorData);
+    addDoctor(doctorData);
   };
 
   return (
@@ -107,7 +74,7 @@ const AddDoctorForm = () => {
           <input
             type="text"
             id="name"
-            value={doctor.name}
+            value={doctorData.name}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="John Doe"
@@ -124,7 +91,7 @@ const AddDoctorForm = () => {
           <input
             type="email"
             id="email"
-            value={doctor.email}
+            value={doctorData.email}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="doctor@gmail.com"
@@ -141,7 +108,7 @@ const AddDoctorForm = () => {
           <input
             type="password"
             id="password"
-            value={doctor.password}
+            value={doctorData.password}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="********"
@@ -158,7 +125,7 @@ const AddDoctorForm = () => {
           <input
             type="tel"
             id="phone"
-            value={doctor.phone}
+            value={doctorData.phone}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="+1234567894"
@@ -175,7 +142,7 @@ const AddDoctorForm = () => {
           <input
             type="text"
             id="specialization"
-            value={doctor.specialization}
+            value={doctorData.specialization}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Psychiatrist"
@@ -198,19 +165,19 @@ const AddDoctorForm = () => {
                 </label>
                 <select
                   id="start_day"
-                  value={doctor.availability.days.start}
+                  value={doctorData.availability.startDay}
                   onChange={handleInputChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 >
                   {[
-                    'Sunday',
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday',
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
                   ].map((day) => (
                     <option key={day} value={day}>
                       {day}
@@ -227,19 +194,19 @@ const AddDoctorForm = () => {
                 </label>
                 <select
                   id="end_day"
-                  value={doctor.availability.days.end}
+                  value={doctorData.availability.endDay}
                   onChange={handleInputChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 >
                   {[
-                    'Sunday',
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday',
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
                   ].map((day) => (
                     <option key={day} value={day}>
                       {day}
@@ -261,7 +228,7 @@ const AddDoctorForm = () => {
                 <input
                   type="time"
                   id="start-time"
-                  value={doctor.availability.hours.start}
+                  value={doctorData.availability.startTime}
                   onChange={handleInputChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
@@ -277,7 +244,7 @@ const AddDoctorForm = () => {
                 <input
                   type="time"
                   id="end-time"
-                  value={doctor.availability.hours.end}
+                  value={doctorData.availability.endTime}
                   onChange={handleInputChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required

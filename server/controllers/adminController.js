@@ -108,7 +108,6 @@ const registerDoctor = async (req, res) => {
 };
 
 // API to get all the doctors
-
 const getAllDoctors = async (req, res) => {
   try {
     const doctors = await doctorModel.find({}).select("-password");
@@ -118,6 +117,24 @@ const getAllDoctors = async (req, res) => {
       success: false,
       message: "Get All Doctor Error : " + error.message,
     });
+  }
+};
+
+const getDoctor = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const doctor = await doctorModel.findById(id).select("-password");
+
+    if (!doctor) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Doctor Not Found" });
+    }
+    res.status(200).json({ success: true, doctor });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Get Doctor Error : " + error.message });
   }
 };
 
@@ -250,6 +267,7 @@ export {
   registerDoctor,
   loginAdmin,
   updateDoctor,
+  getDoctor,
   getAllDoctors,
   deleteDoctor,
 };

@@ -1,33 +1,15 @@
-import { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axios from 'axios';
+import { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import { Link } from "react-router-dom";
 
 const DoctorList = () => {
-  const { allDoctors, backendUrl, token } = useContext(AppContext);
-  const [searchQuery, setSearchQuery] = useState('');
+  const { allDoctors, deleteDoctor } = useContext(AppContext);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Filter products based on the search query
   const filteredDoctors = allDoctors.filter((allDoctors) =>
     allDoctors.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const deleteDoctor = async (_id) => {
-    try {
-      const { data } = await axios.delete(backendUrl + '/admin/delete-doctor', {
-        headers: { atoken: token },
-        data: { docId: _id },
-      });
-      if (data.success) {
-        toast.success('success');
-      } else {
-        toast.error('false');
-      }
-    } catch (error) {
-      toast.error('delete doctor catch block error : ' + error.message);
-    }
-  };
 
   return (
     <div className="sm:ml-64 pt-20 px-10">
@@ -112,17 +94,10 @@ const DoctorList = () => {
                 <td className="px-6 py-4">
                   <div className="flex flex-col items-start justify-center">
                     <div>
-                      {data.availability.hours.start} -
-                      {data.availability.hours.end}
+                      {data.availability.startTime}-{data.availability.endTime}
                     </div>
                     <div>
-                      {' '}
-                      {data.availability.days[0]} -{' '}
-                      {
-                        data.availability.days[
-                          data.availability.days.length - 1
-                        ]
-                      }
+                      {data.availability.startDay}-{data.availability.endDay}
                     </div>
                   </div>
                 </td>
