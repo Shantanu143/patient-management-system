@@ -1,13 +1,32 @@
-import "flowbite";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import 'flowbite';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ sidebarLinks, user, handleLogout }) => {
+  const [selectedIndex, setSelectedIndex] = useState(() => {
+    // Retrieve the saved index from localStorage or default to 0
+    return parseInt(localStorage.getItem('selectedIndex')) || 0;
+  });
+
+  const handleClick = (index) => {
+    setSelectedIndex(index);
+    localStorage.setItem('selectedIndex', index); // Save the index in localStorage
+  };
+
+  useEffect(() => {
+    // Ensure the correct selected index is highlighted on initial load
+    const savedIndex = parseInt(localStorage.getItem('selectedIndex'));
+    if (savedIndex !== null && !isNaN(savedIndex)) {
+      setSelectedIndex(savedIndex);
+    }
+  }, []);
+
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 ">
-        <div className="px-3 py-3 lg:px-5 lg:pl-3 ">
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center justify-start rtl:justify-end ">
+      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
+        <div className="px-3 py-3 lg:px-5 lg:pl-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center justify-start rtl:justify-end">
               <button
                 data-drawer-target="logo-sidebar"
                 data-drawer-toggle="logo-sidebar"
@@ -30,7 +49,7 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
                   ></path>
                 </svg>
               </button>
-              <a href="/#" className="flex ms-2 md:me-24 ">
+              <a href="/#" className="flex ms-2 md:me-24">
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">
                   Trackcare
                 </span>
@@ -41,7 +60,7 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
                 <div>
                   <button
                     type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 "
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
                     aria-expanded="false"
                     data-dropdown-toggle="dropdown-user"
                   >
@@ -54,7 +73,7 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
                   </button>
                 </div>
                 <div
-                  className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow "
+                  className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
                   id="dropdown-user"
                 >
                   <div className="px-4 py-3" role="none">
@@ -75,7 +94,7 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
                     <li>
                       <a
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                       >
                         Dashboard
@@ -93,7 +112,7 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
                     <li>
                       <a
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                       >
                         Earnings
@@ -102,7 +121,7 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
                     <li>
                       <a
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                         onClick={handleLogout}
                       >
@@ -128,7 +147,12 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
               <li key={index}>
                 <Link
                   to={link.to}
-                  className="flex items-center p-2 text-gray-900 hover:text-white rounded-lg hover:bg-[#4880FF] group"
+                  onClick={() => handleClick(index)}
+                  className={`flex items-center p-2 rounded-lg group transition-all ease-out ${
+                    selectedIndex === index
+                      ? 'text-white bg-[#4880FF]'
+                      : 'text-gray-900 hover:text-white hover:bg-[#4880FF]'
+                  }`}
                 >
                   <span className="ms-3">{link.text}</span>
                 </Link>
