@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../context/AppContext';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const { backendUrl, token, setToken } = useContext(AppContext);
-  const [role, setRole] = useState('doctor');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [role, setRole] = useState("doctor");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -16,44 +16,49 @@ const LoginPage = () => {
     const cgreenentials = { email, password };
     formSubmitHandler(cgreenentials);
   };
-
-  const formSubmitHandler = async (cgreenentials) => {
+  const formSubmitHandler = async (credentials) => {
     try {
       if (!backendUrl) {
-        throw new Error('Backend URL is not defined.');
+        throw new Error("Backend URL is not defined.");
       }
 
-      let url = '';
-      if (role === 'doctor') {
-        url = backendUrl + '/doctor/login-doctor';
-      } else if (role === 'admin') {
-        url = backendUrl + '/admin/login-admin';
-      } else {
-        throw new Error('Invalid role. Please provide a valid role.');
-      }
+      const url =
+        role === "doctor"
+          ? `${backendUrl}/doctor/login-doctor`
+          : `${backendUrl}/admin/login-admin`;
 
-      const { data } = await axios.post(url, cgreenentials);
+          console.log({...credentials, role});
+          
+      const { data } = await axios.post(url, { ...credentials, role });
+
+      console.log(role);
+      console.log(data.role);
 
       if (data.success) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('role', role);
+        if (data.role !== role) {
+          throw new Error(
+            `Invalid role detected. Tried to log in as ${role}, but the credentials are for ${data.role}.`
+          );
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", role);
         setToken(data.token);
-        toast.success('Login successful');
+        toast.success("Login successful");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      // Log the error and display an appropriate message
-      console.log('Error during login:', error.message);
-      toast.error(error.response?.data?.message);
+      console.log("Error during login:", error.message);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
   useEffect(() => {
-    if (token && role === 'admin') {
-      navigate('/admin-dashboard');
-    } else if (token && role === 'doctor') {
-      navigate('/doctor-dashboard');
+    if (token && role === "admin") {
+      navigate("/admin-dashboard");
+    } else if (token && role === "doctor") {
+      navigate("/doctor-dashboard");
     }
   }, [navigate, role, token]);
 
@@ -64,7 +69,7 @@ const LoginPage = () => {
         className="min-w-80 w-2/6 mx-auto border border-green-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
       >
         <h1 className="text-2xl font-medium text-white pb-5">
-          Login as {role === 'admin' ? 'admin' : 'doctor'}
+          Login as {role === "admin" ? "admin" : "doctor"}
         </h1>
 
         <div className="mb-5 ">
@@ -98,11 +103,11 @@ const LoginPage = () => {
             required
           />
         </div>
-        {role === 'admin' ? (
+        {role === "admin" ? (
           <p className="text-white mb-4">
-            Login as doctor{' '}
+            Login as doctor{" "}
             <span
-              onClick={() => setRole('doctor')}
+              onClick={() => setRole("doctor")}
               className="text-white underline cursor-pointer"
             >
               click here
@@ -110,9 +115,9 @@ const LoginPage = () => {
           </p>
         ) : (
           <p className="text-white mb-4">
-            Login as admin{' '}
+            Login as admin{" "}
             <span
-              onClick={() => setRole('admin')}
+              onClick={() => setRole("admin")}
               className="text-white underline cursor-pointer"
             >
               click here

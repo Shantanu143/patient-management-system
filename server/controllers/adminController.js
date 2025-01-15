@@ -2,25 +2,27 @@ import bcrypt, { genSalt } from "bcrypt";
 import validator from "validator";
 import doctorModel from "../models/doctorModel.js";
 import jwt from "jsonwebtoken";
-import isEmail from "validator/lib/isEmail.js";
 
 // API to login admin
 
 const loginAdmin = async (req, res) => {
   try {
-    const { email, password } = req.body;
-
+    const { email, password, role } = req.body;
+    if (role !== process.env.ADMIN_ROLE) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid role for this login endpoint.",
+      });
+    }
     if (
       email == process.env.ADMIN_EMAIL &&
       password == process.env.ADMIN_PASSWORD
     ) {
-      const role = process.env.ADMIN_ROLE;
       const payload = { email, role };
-
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-      res.status(202).json({ success: true, token });
+      res.status(202).json({ success: true, token, role: "admin" });
     } else {
       res
         .status(401)

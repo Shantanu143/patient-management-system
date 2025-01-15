@@ -14,10 +14,12 @@ const authAdmin = async (req, res, next) => {
 
     // verify the token
     const decodedToken = jwt.verify(atoken, process.env.JWT_SECRET);
-
     let email = process.env.ADMIN_EMAIL;
+  
+   
+
     if (
-      decodedToken.email !== email ||
+      decodedToken.email != email ||
       decodedToken.role != process.env.ADMIN_ROLE
     ) {
       return res.status(401).json({
