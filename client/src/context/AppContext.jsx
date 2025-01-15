@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ const AppContextProvider = (props) => {
       );
       if (data.success) {
         setAllDoctor((prev) => [...prev, data.newDoctor]);
-        navigate('/admin-dashboard/all-doctor')
+        navigate("/admin-dashboard/all-doctor");
         toast.success("Doctor added successfully");
       } else {
         toast.error("Error adding doctors");
@@ -52,8 +52,6 @@ const AppContextProvider = (props) => {
 
   const editDoctor = async (doctorData) => {
     try {
-      console.log(doctorData);
-      
       const { data } = await axios.put(
         backendUrl + "/admin/update-doctor",
         doctorData,
@@ -67,7 +65,7 @@ const AppContextProvider = (props) => {
               : doctor;
           })
         );
-        navigate('/admin-dashboard/all-doctor')
+        navigate("/admin-dashboard/all-doctor");
         toast.success("doctor update successfully");
       } else {
         toast.error("Error update doctor");
@@ -85,7 +83,7 @@ const AppContextProvider = (props) => {
       });
       if (data.success) {
         setAllDoctor((prev) => prev.filter((doctor) => doctor._id !== docId));
-        navigate('/admin-dashboard/all-doctor')
+        navigate("/admin-dashboard/all-doctor");
         toast.success("Doctor deleted successfully");
       } else {
         toast.error("Error deleting doctor");
@@ -94,10 +92,6 @@ const AppContextProvider = (props) => {
       toast.error("Delete doctor error :" + error.message);
     }
   };
-
-  useEffect(() => {
-    fetchAllDoctors();
-  }, []);
 
   const value = {
     backendUrl,

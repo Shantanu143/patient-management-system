@@ -55,10 +55,7 @@ const EditDoctorForm = () => {
     fetchDoctorsDetails();
   }, [id]);
 
-  // const handleInputChange = (e) => {
-  //   const { id, value } = e.target;
-  //   setFormValues((prev) => ({ ...prev, [id]: value }));
-  // };
+
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;

@@ -1,15 +1,33 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 
 const DoctorList = () => {
-  const { allDoctors, deleteDoctor } = useContext(AppContext);
+  const { allDoctors, deleteDoctor, fetchAllDoctors } = useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  useEffect(() => {
+    fetchAllDoctors();
+  }, []);
 
-  // Filter products based on the search query
-  const filteredDoctors = allDoctors.filter((allDoctors) =>
-    allDoctors.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    if (searchQuery === "") {
+      setFilteredDoctors(allDoctors.filter((doctor) => doctor != null)); // Remove null/undefined doctors
+    } else {
+      const lowercasedQuery = searchQuery.toLowerCase();
+      setFilteredDoctors(
+        allDoctors
+          .filter((doctor) => doctor != null) // Remove null/undefined doctors
+          .filter((doctor) =>
+            doctor?.name?.toLowerCase().includes(lowercasedQuery)
+          )
+      );
+    }
+  }, [searchQuery, allDoctors]);
+
+  if (!filteredDoctors || filteredDoctors.length === 0) {
+    return <p>Loading doctors or no doctors available...</p>;
+  }
 
   return (
     <div className="sm:ml-64 pt-20 px-10">

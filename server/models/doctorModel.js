@@ -25,23 +25,24 @@ const DoctorSchema = new mongoose.Schema(
       require: true,
     },
     availability: {
+     
       startDay: {
-        type: String,
-        require: true,
-      },
-      endDay: {
-        type: String,
-        require: true,
-      },
-
-      startTime: {
-        type: String,
-        require: true,
-      },
-      endTime: {
-        type: String,
-        require: true,
-      },
+          type: String,
+          require: true,
+        },
+        endDay: {
+          type: String,
+          require: true,
+        },
+   
+        startTime: {
+          type: String,
+          require: true,
+        },
+        endTime: {
+          type: String,
+          require: true,
+        },
     },
     role: { type: String, required: true },
   },
