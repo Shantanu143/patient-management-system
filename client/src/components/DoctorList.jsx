@@ -1,17 +1,17 @@
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../context/AppContext";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../context/AppContext';
+import { Link } from 'react-router-dom';
 
 const DoctorList = () => {
   const { allDoctors, deleteDoctor, fetchAllDoctors } = useContext(AppContext);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredDoctors, setFilteredDoctors] = useState([]);
   useEffect(() => {
     fetchAllDoctors();
   }, []);
 
   useEffect(() => {
-    if (searchQuery === "") {
+    if (searchQuery === '') {
       setFilteredDoctors(allDoctors.filter((doctor) => doctor != null)); // Remove null/undefined doctors
     } else {
       const lowercasedQuery = searchQuery.toLowerCase();

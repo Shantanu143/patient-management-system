@@ -1,13 +1,12 @@
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LandingPage from './pages/LandingPage';
+import { Route, Routes } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
 
-import LandingPage from "./pages/LandingPage";
-import { Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-
-import ProtectedRoute from "./Routes/ProtectedRoute";
-import AdminDashboard from "./pages/AdminDashboard";
-import DoctorDashboard from "./pages/DoctorDashboard";
+import ProtectedRoute from './Routes/ProtectedRoute';
+import AdminDashboard from './pages/AdminDashboard';
+import DoctorDashboard from './pages/DoctorDashboard';
 
 const App = () => {
   return (
