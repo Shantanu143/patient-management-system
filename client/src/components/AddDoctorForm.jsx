@@ -1,21 +1,21 @@
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react';
 
-import { AppContext } from "../context/AppContext";
+import { AppContext } from '../context/AppContext';
 
 const AddDoctorForm = () => {
   const { addDoctor } = useContext(AppContext);
 
   const [doctorData, setDoctorData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    specialization: "",
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    specialization: '',
     availability: {
-      startDay: "",
-      endDay: "",
-      startTime: "",
-      endTime: "",
+      startDay: '',
+      endDay: '',
+      startTime: '',
+      endTime: '',
     },
   });
 
@@ -23,22 +23,22 @@ const AddDoctorForm = () => {
     const { id, value } = e.target;
 
     if (
-      id === "start_day" ||
-      id === "end_day" ||
-      id === "start-time" ||
-      id === "end-time"
+      id === 'start_day' ||
+      id === 'end_day' ||
+      id === 'start-time' ||
+      id === 'end-time'
     ) {
       setDoctorData((prevData) => ({
         ...prevData,
         availability: {
           ...prevData.availability,
-          [id === "start_day"
-            ? "startDay"
-            : id === "end_day"
-            ? "endDay"
-            : id === "start-time"
-            ? "startTime"
-            : "endTime"]: value,
+          [id === 'start_day'
+            ? 'startDay'
+            : id === 'end_day'
+            ? 'endDay'
+            : id === 'start-time'
+            ? 'startTime'
+            : 'endTime']: value,
         },
       }));
     } else {
@@ -171,13 +171,13 @@ const AddDoctorForm = () => {
                   required
                 >
                   {[
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
+                    'Sunday',
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
                   ].map((day) => (
                     <option key={day} value={day}>
                       {day}
@@ -200,13 +200,13 @@ const AddDoctorForm = () => {
                   required
                 >
                   {[
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
+                    'Sunday',
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
                   ].map((day) => (
                     <option key={day} value={day}>
                       {day}
@@ -257,7 +257,7 @@ const AddDoctorForm = () => {
         <div className="p-2 w-full">
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-1"
+            className="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-1"
           >
             Add Doctor
           </button>

@@ -66,7 +66,7 @@ const LoginPage = () => {
     <div className="flex justify-center items-center w-full h-screen bg-custom-gradient">
       <form
         onSubmit={submitForm}
-        className="min-w-80 w-2/6 mx-auto border border-green-300 p-12 rounded-md transition-all duration-300 transform hover:translate-y-[-10px] hover:scale-102 hover:shadow-xl "
+        className="min-w-80 w-2/6 mx-auto border-2 border-blue-300 p-12 rounded-md transition-all duration-300 transform hover:-translate-y-1 hover:scale-102 hover:shadow-xl "
       >
         <h1 className="text-2xl font-medium text-white pb-5">
           Login as {role === 'admin' ? 'admin' : 'doctor'}
@@ -75,7 +75,7 @@ const LoginPage = () => {
         <div className="mb-5 ">
           <label
             htmlFor="email"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-white"
           >
             Email
           </label>
@@ -83,7 +83,7 @@ const LoginPage = () => {
             type="email"
             id="username"
             onChange={(e) => setEmail(e.target.value)}
-            className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="bg-green-50 border border-blue-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 "
             placeholder="name@doctor.com"
             required
           />
@@ -91,7 +91,7 @@ const LoginPage = () => {
         <div className="mb-5">
           <label
             htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-white"
           >
             Your password
           </label>
@@ -99,8 +99,9 @@ const LoginPage = () => {
             type="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
-            className="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="bg-green-50 border border-blue-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 "
             required
+            placeholder="*********"
           />
         </div>
         {role === 'admin' ? (
@@ -127,7 +128,7 @@ const LoginPage = () => {
 
         <button
           type="submit"
-          className="relative group text-white bg-[#137024] overflow-hidden font-medium rounded-lg text-sm w-full sm:w-auto text-center transition-all"
+          className="relative group text-white bg-blue-500 overflow-hidden font-medium rounded-lg text-sm w-full sm:w-auto text-center transition-all"
         >
           <span className="block transition-transform transform group-hover:-translate-y-full duration-500  px-5 py-2.5">
             Submit
