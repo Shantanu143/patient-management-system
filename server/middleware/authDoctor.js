@@ -25,8 +25,6 @@ const authDoctor = async (req, res, next) => {
 
     // Attach userId to req object in a non-conflicting way
     req.user = { id: decodedToken.id };
-
-    // Proceed to the next middleware
     next();
   } catch (error) {
     // Log the error safely
