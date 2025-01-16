@@ -44,7 +44,7 @@ const LandingPage = () => {
           )}
         </div>
       </nav>
-      <div className=" py-6 relative z-10">
+      <div className=" py-9 relative z-10">
         <h1 className="relative text-[clamp(2rem,5vw,4rem)] font-inter leading-none md:w-3/4 w-4/5 font-medium text-white before:content-['Streamline_patient_records_with_Trackcare.'] before:absolute before:-z-10 before:-top-1 before:-left-1 before:text-blue-900">
           Streamline patient records with{' '}
           <span className="text-blue-500">Trackcare.</span>
@@ -80,7 +80,7 @@ const LandingPage = () => {
         ].map((item, index) => {
           return (
             <div
-              className="relative flex flex-col my-2 mx-2 bg-transparent shadow-sm shadow-blue-500 border border-blue-300 rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60 p-2 text-start  ease-in transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-700"
+              className="relative flex flex-col my-3 mx-3 bg-transparent shadow-sm shadow-blue-500 border border-blue-300 rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60 p-2 text-start  ease-in transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-700"
               key={index}
             >
               <div className="flex items-center flex-col ">
