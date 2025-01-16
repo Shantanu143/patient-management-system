@@ -66,7 +66,7 @@ const LoginPage = () => {
     <div className="flex justify-center items-center w-full h-screen bg-custom-gradient">
       <form
         onSubmit={submitForm}
-        className="min-w-80 w-2/6 mx-auto border-2 border-blue-300 p-12 rounded-md transition-all duration-300 transform hover:-translate-y-1 hover:scale-102 hover:shadow-xl "
+        className="min-w-80 w-2/6 mx-auto border-2 border-blue-300 p-12 rounded-md transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-700 "
       >
         <h1 className="text-2xl font-medium text-white pb-5">
           Login as {role === 'admin' ? 'admin' : 'doctor'}
@@ -109,7 +109,7 @@ const LoginPage = () => {
             Login as doctor{' '}
             <span
               onClick={() => setRole('doctor')}
-              className="text-white underline cursor-pointer"
+              className="text-white underline underline-offset-2 cursor-pointer hover:text-blue-300"
             >
               click here
             </span>
@@ -119,7 +119,7 @@ const LoginPage = () => {
             Login as admin{' '}
             <span
               onClick={() => setRole('admin')}
-              className="text-white underline cursor-pointer"
+              className="text-white underline cursor-pointer hover:text-blue-300"
             >
               click here
             </span>

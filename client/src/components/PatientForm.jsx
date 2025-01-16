@@ -11,7 +11,6 @@ const PatientForm = () => {
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
-    console.log(event.target.id);
     setPatient((prevState) => ({
       ...prevState,
       [id]: value,

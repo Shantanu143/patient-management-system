@@ -61,8 +61,8 @@ const DoctorList = () => {
             id="table-search"
             value={searchQuery} // Bind search query state
             onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
-            className="block pt-2 ps-10 text-sm text-gray-900 border bg-transparent border-gray-300 rounded-3xl w-80 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search for items"
+            className="block pt-2 ps-10 text-sm text-gray-900 border bg-transparent border-gray-300 rounded-3xl w-full max-w-80 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Search for a doctor"
           />
         </div>
       </div>
