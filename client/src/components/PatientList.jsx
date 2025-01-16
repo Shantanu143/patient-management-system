@@ -56,7 +56,7 @@ const PatientList = () => {
         <label htmlFor="table-search" className="sr-only">
           Search
         </label>
-        <div className="relative mt-1">
+        <div className="relative mt-1 ">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
               className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -79,8 +79,8 @@ const PatientList = () => {
             id="table-search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="block pt-2 ps-10 text-sm text-gray-900 border bg-transparent border-gray-300 rounded-3xl w-80 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search for patients"
+            className="block pt-2 ps-10 text-sm text-gray-900 border bg-transparent border-gray-300 rounded-3xl w-full max-w-80 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Search for a patient"
           />
         </div>
       </div>
