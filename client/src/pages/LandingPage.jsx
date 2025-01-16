@@ -2,6 +2,12 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
+import {
+  FaUserMd,
+  FaPills,
+  FaFileInvoice,
+  FaClipboardList,
+} from 'react-icons/fa';
 
 const LandingPage = () => {
   const { token, setToken } = useContext(AppContext);
@@ -54,28 +60,34 @@ const LandingPage = () => {
           {
             title: 'Manage Patient Records',
             desc: 'Easily add and update patient details for efficient care.',
+            icon: <FaUserMd />, // Doctor icon
           },
           {
             title: 'Prescription Management',
             desc: 'Create, manage, and track prescriptions with ease.',
+            icon: <FaPills />, // Pills icon
           },
           {
             title: 'Quick Bill Generation',
             desc: 'Generate and print patient bills in just a few clicks.',
+            icon: <FaFileInvoice />, // Invoice icon
           },
           {
             title: 'Patient History Overview',
             desc: 'View detailed patient records for informed care.',
+            icon: <FaClipboardList />, // Clipboard icon
           },
         ].map((item, index) => {
           return (
             <div
-              className="relative flex flex-col  my-2  mx-2 bg-transparent hover:bg-card-gradient shadow-sm border-2 border-blue-300 rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60  p-2 text-start transition-all ease-in duration-300 hover:-translate-y-1"
+              className="relative flex flex-col my-2 mx-2 bg-transparent shadow-sm shadow-blue-500 border border-blue-300 rounded-tl-lg rounded-br-lg rounded-bl-3xl rounded-tr-3xl max-w-60 p-2 text-start  ease-in transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-700"
               key={index}
             >
-              <div className="flex items-center p-2">
+              <div className="flex items-center flex-col ">
+                <div className="text-2xl p-2">{item.icon}</div>
+
                 <h5
-                  className=" text-white font-semibold "
+                  className=" text-white font-semibold leading-none p-2"
                   style={{ fontSize: 'clamp(1rem, 2.5vw, 1.50rem)' }}
                 >
                   {item.title}
@@ -83,7 +95,7 @@ const LandingPage = () => {
               </div>
               <p
                 className="block text-slate-200 leading-normal font-light p-2 "
-                style={{ fontsize: 'clamp(10px, 2vw, 16px)]' }}
+                style={{ fontSize: 'clamp(10px, 2vw, 16px)' }}
               >
                 {item.desc}
               </p>
