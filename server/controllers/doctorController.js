@@ -18,9 +18,8 @@ const loginDoctor = async (req, res) => {
         message: "Invalid role for this login endpoint.",
       });
     }
-    console.log(email);
     const doctor = await doctorModel.findOne({ email });
-    console.log(doctor);
+
 
     if (!doctor) {
       return res

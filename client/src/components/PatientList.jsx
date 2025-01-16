@@ -1,51 +1,42 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { DoctorContext } from "../context/DoctorContext";
 
 const PatientList = () => {
-  // Dummy data based on the PatientSchema
-  const dummyPatients = [
-    {
-      _id: '1',
-      name: 'John Doe',
-      age: 45,
-      gender: 'Male',
-      contact: '+1-123-456-7890',
-      address: '123 Main Street, Springfield',
-      medicalHistory: ['Diabetes', 'Hypertension'],
-      doctorId: '123456789012',
-      diagnosis: 'Flu',
-    },
-    {
-      _id: '2',
-      name: 'Jane Smith',
-      age: 34,
-      gender: 'Female',
-      contact: '+1-987-654-3210',
-      address: '456 Elm Street, Gotham',
-      medicalHistory: ['Asthma'],
-      doctorId: '098765432109',
-      diagnosis: 'Bronchitis',
-    },
-    {
-      _id: '3',
-      name: 'Alice Johnson',
-      age: 29,
-      gender: 'Female',
-      contact: '+1-456-789-0123',
-      address: '789 Pine Street, Metropolis',
-      medicalHistory: ['Migraine'],
-      doctorId: '567890123456',
-      diagnosis: 'Migraine',
-    },
-  ];
+  const { fetchAllPatients, patients, deletePatient } =
+    useContext(DoctorContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
-  // State for filtering patients (search functionality)
-  const [searchQuery, setSearchQuery] = useState('');
+  useEffect(() => {
+    fetchAllPatients();
+  }, []);
 
-  // Filter patients based on the search query
-  const filteredPatients = dummyPatients.filter((patient) =>
-    patient.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    if (!patients || patients.length === 0) {
+      setFilteredPatients([]);
+      return;
+    }
+    if (searchQuery === "") {
+      setFilteredPatients(patients.filter((patient) => patient != null));
+    } else {
+      const lowercasedQuery = searchQuery.toLowerCase();
+      setFilteredPatients(
+        patients
+          .filter((patient) => patient != null)
+          .filter((patient) =>
+            patient?.name?.toLowerCase().includes(lowercasedQuery)
+          )
+      );
+    }
+  }, [searchQuery, patients]);
+
+  if (!patients || patients.length === 0) {
+    return <p>Loading patients or no patients available...</p>;
+  }
+  if (!filteredPatients || filteredPatients.length === 0) {
+    return <p>Loading doctors or no doctors available...</p>;
+  }
 
   return (
     <div className="sm:ml-64 pt-20 px-10">
@@ -109,7 +100,7 @@ const PatientList = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredPatients.map((patient, index) => (
+            {filteredPatients.map((patient) => (
               <tr
                 key={patient._id}
                 className="bg-white border-b  dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -121,21 +112,20 @@ const PatientList = () => {
                     <span>{patient.gender}</span>
                   </div>
                 </td>
-                {/* <td className="px-6 py-4">{patient.age}</td> */}
-                {/* <td className="px-6 py-4">{patient.gender}</td> */}
+
                 <td className="px-6 py-4">{patient.contact}</td>
                 <td className="px-6 py-4">{patient.address}</td>
-                <td className="px-6 py-4">{patient.diagnosis || 'N/A'}</td>
+                <td className="px-6 py-4">{patient.diagnosis || "N/A"}</td>
                 <td className="px-6 py-4">
                   <div className="flex flex-row md:items-center gap-2">
                     <Link
-                      // to={`/admin-dashboard/edit-doctor/${data._id}`}
+                      to={`/doctor-dashboard/edit-patient/${patient._id}`}
                       className="font-medium text-[#3A7AC0] bg-[#D6EBFF] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
                     >
                       Edit
                     </Link>
                     <button
-                      // onClick={() => deleteDoctor(data._id)}
+                      onClick={() => deletePatient(patient._id)}
                       className="font-medium text-[#C74312] bg-[#FFD5C7] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
                     >
                       Delete

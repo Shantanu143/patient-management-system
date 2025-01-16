@@ -1,8 +1,14 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DoctorContext } from "../context/DoctorContext";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { AppContext } from "../context/AppContext";
 
-const PatientForm = () => {
-  const { addPatient } = useContext(DoctorContext);
+const EditPatientForm = () => {
+  const { backendUrl, token } = useContext(AppContext);
+  const { updatePatient } = useContext(DoctorContext);
+  const { id } = useParams();
   const [patient, setPatient] = useState({
     name: "",
     age: "",
@@ -11,6 +17,36 @@ const PatientForm = () => {
     address: "",
     diagnosis: "",
   });
+
+  const fetchPatientDetails = async () => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/doctor/get-patient/${id}`,
+        { headers: { token } }
+      );
+
+      if (data.success) {
+        const patientData = data.data;
+
+        setPatient({
+          name: patientData.name,
+          age: patientData.age,
+          gender: patientData.gender,
+          contact: patientData.contact,
+          address: patientData.address,
+          diagnosis: patientData.diagnosis,
+        });
+      } else {
+        toast.error("Fetch Patient Details Else Block Error : " + data.message);
+      }
+    } catch (error) {
+      toast.error("Fetch Patient Details Catch Block Error : " + error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchPatientDetails();
+  }, [id]);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -22,7 +58,7 @@ const PatientForm = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    addPatient(patient);
+    updatePatient({ ...patient, _id: id });
   };
 
   return (
@@ -155,7 +191,7 @@ const PatientForm = () => {
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
-            Add Patient
+            Update Patient
           </button>
         </div>
       </form>
@@ -163,4 +199,4 @@ const PatientForm = () => {
   );
 };
 
-export default PatientForm;
+export default EditPatientForm;

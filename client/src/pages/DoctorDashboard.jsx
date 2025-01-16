@@ -8,6 +8,7 @@ import AdminPanel from '../components/AdminPanel';
 import EditDoctorForm from '../components/EditDoctorForm';
 import PatientForm from '../components/PatientForm';
 import PatientList from '../components/PatientList';
+import EditPatientForm from '../components/EditPatientForm';
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const DoctorDashboard = () => {
         <Route path="/" element={<AdminPanel />} />
         <Route path="/all-patients" element={<PatientList />} />
         <Route path="/add-patient" element={<PatientForm />} />
-        <Route path="/edit-patient/:id" element={<EditDoctorForm />} />
+        <Route path="/edit-patient/:id" element={<EditPatientForm />} />
       </Routes>
     </div>
   );
