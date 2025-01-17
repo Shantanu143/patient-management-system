@@ -1,6 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Body text styles */
+body {
+  font-family: 'Inter', sans-serif; /* Replacing Roboto with Inter for a lighter look */
+  font-weight: 300; /* Lighter font-weight for body text */
+  color: #555; /* Softer text color for better readability */
+}
+
+/* Heading styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif; /* Changing Merriweather to Poppins for headings */
+  font-weight: 600; /* Bold but not overly heavy */
+  color: #222; /* Darker color for emphasis */
+}

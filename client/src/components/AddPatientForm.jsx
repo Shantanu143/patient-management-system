@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
-import { DoctorContext } from "../context/DoctorContext";
+import { useContext, useState } from 'react';
+import { DoctorContext } from '../context/DoctorContext';
 
-const PatientForm = () => {
+const AddPatientForm = () => {
   const { addPatient } = useContext(DoctorContext);
   const [patient, setPatient] = useState({
-    name: "",
-    age: "",
-    gender: "",
-    contact: "",
-    address: "",
-    diagnosis: "",
+    name: '',
+    age: '',
+    gender: '',
+    contact: '',
+    address: '',
+    diagnosis: '',
   });
 
   const handleInputChange = (event) => {
@@ -163,4 +163,4 @@ const PatientForm = () => {
   );
 };
 
-export default PatientForm;
+export default AddPatientForm;
