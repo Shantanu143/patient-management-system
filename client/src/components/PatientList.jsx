@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { DoctorContext } from "../context/DoctorContext";
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { DoctorContext } from '../context/DoctorContext';
 
 const PatientList = () => {
   const { fetchAllPatients, patients, deletePatient } =
     useContext(DoctorContext);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const PatientList = () => {
       setFilteredPatients([]);
       return;
     }
-    if (searchQuery === "") {
+    if (searchQuery === '') {
       setFilteredPatients(patients.filter((patient) => patient != null));
     } else {
       const lowercasedQuery = searchQuery.toLowerCase();
@@ -33,9 +33,6 @@ const PatientList = () => {
 
   if (!patients || patients.length === 0) {
     return <p>Loading patients or no patients available...</p>;
-  }
-  if (!filteredPatients || filteredPatients.length === 0) {
-    return <p>Loading doctors or no doctors available...</p>;
   }
 
   return (
@@ -91,7 +88,7 @@ const PatientList = () => {
               <th scope="col" className="px-6 py-3">
                 Diagnosis
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Action
               </th>
               <th scope="col" className="px-6 py-3">
@@ -115,7 +112,7 @@ const PatientList = () => {
 
                 <td className="px-6 py-4">{patient.contact}</td>
                 <td className="px-6 py-4">{patient.address}</td>
-                <td className="px-6 py-4">{patient.diagnosis || "N/A"}</td>
+                <td className="px-6 py-4">{patient.diagnosis || 'N/A'}</td>
                 <td className="px-6 py-4">
                   <div className="flex flex-row md:items-center gap-2">
                     <Link
@@ -133,19 +130,19 @@ const PatientList = () => {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="flex flex-row md:items-center gap-2">
-                    <Link
-                      // to={`/admin-dashboard/edit-doctor/${data._id}`}
+                  <div className="flex flex-row md:items-center gap-2 justify-center">
+                    {/* <Link
+      
                       className="font-medium text-[#6448D6] bg-[#DDD6FF] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
                     >
                       Add
-                    </Link>
-                    <button
-                      // onClick={() => deleteDoctor(data._id)}
+                    </Link> */}
+                    <Link
+                      to={`/doctor-dashboard/prescription-history/${patient._id}`}
                       className="font-medium text-[#248C36] bg-[#CFF3D1] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
                     >
                       View
-                    </button>
+                    </Link>
                   </div>
                 </td>
               </tr>
