@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 
 const AddPrescription = () => {
@@ -28,21 +28,17 @@ const AddPrescription = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate form submission
-    console.log({
-      diagnosis,
-      medications,
-      notes,
+    const prescriptionData = { diagnosis, medications, notes };
+    navigate('/doctor-dashboard/print-prescription', {
+      state: prescriptionData, // Passing data via router
     });
-    alert('Prescription added successfully!');
-    navigate(`/doctor-dashboard/prescription-history`);
   };
 
   return (
     <div className="sm:ml-64 pt-20 px-10">
       <h2 className="text-2xl font-semibold mb-6">Add Prescription</h2>
       <div className="bg-white shadow-md rounded-lg p-6">
-        <p className="text-lg font-medium mb-4">Patient Name: </p>
+        <p className="text-lg font-medium mb-4">Patient Name: Shantanu</p>
         <form onSubmit={handleSubmit}>
           {/* Diagnosis Field */}
           <div className="mb-4">
@@ -123,12 +119,14 @@ const AddPrescription = () => {
           </div>
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white font-medium rounded-lg p-2 text-sm hover:bg-green-600 focus:ring-2 focus:ring-green-500"
-          >
-            Save & Print
-          </button>
+          <div className="flex text-center">
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white font-medium rounded-lg p-2 text-sm hover:bg-green-600 focus:ring-2 focus:ring-green-500"
+            >
+              Save & Print
+            </button>
+          </div>
         </form>
       </div>
     </div>
