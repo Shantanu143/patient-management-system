@@ -19,6 +19,13 @@ const AddPrescription = () => {
     setMedications([...medications, { name: '', dosage: '', duration: '' }]);
   };
 
+  const handleKeyPress = (event, index) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default form submission
+      addMedicationField();
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Simulate form submission
@@ -85,6 +92,7 @@ const AddPrescription = () => {
                   onChange={(e) =>
                     handleMedicationChange(index, 'duration', e.target.value)
                   }
+                  onKeyDown={(e) => handleKeyPress(e, index)}
                   placeholder="Duration (e.g., 7 days)"
                   required
                   className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -94,7 +102,7 @@ const AddPrescription = () => {
             <button
               type="button"
               onClick={addMedicationField}
-              className="text-green-500 text-sm font-medium hover:text-green-700 mt-2"
+              className="text-green-500 text-sm font-medium hover:text-green-700 "
             >
               + Add another medication
             </button>
@@ -119,7 +127,7 @@ const AddPrescription = () => {
             type="submit"
             className="w-full bg-green-500 text-white font-medium rounded-lg p-2 text-sm hover:bg-green-600 focus:ring-2 focus:ring-green-500"
           >
-            Add Prescription
+            Save & Print
           </button>
         </form>
       </div>
