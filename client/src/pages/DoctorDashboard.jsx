@@ -10,6 +10,7 @@ import PatientList from '../components/PatientList';
 import EditPatientForm from '../components/EditPatientForm';
 import PrescriptionHistory from '../components/PrescriptionHistory';
 import AddPrescription from '../components/AddPrescription';
+import PrintPrescription from '../components/PrintPrescription';
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ const DoctorDashboard = () => {
           element={<PrescriptionHistory />}
         />
         <Route path="/add-prescription" element={<AddPrescription />} />
+        <Route path="/print-prescription" element={<PrintPrescription />} />
       </Routes>
     </div>
   );
