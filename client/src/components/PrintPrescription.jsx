@@ -40,16 +40,16 @@ const PrintPrescription = () => {
   };
 
   return (
-    <>
+    <div className="flex items-center flex-col justify-center min-h-screen">
       <div
         ref={prescriptionRef}
-        className="prescription-container border p-6 max-w-4xl mx-auto text-sm sm:ml-64 pt-20 px-10"
+        className="prescription-container border p-6 max-w-4xl mx-auto text-sm"
       >
         {/* Header */}
         <div className="prescription-content">
           <div className="flex justify-between items-start border-b pb-4">
             <div>
-              <h1 className="text-lg font-bold">
+              <h1 className="text-lg font-semibold text-green-400">
                 {prescriptionData.doctor.name}
               </h1>
               <p>{prescriptionData.doctor.qualifications}</p>
@@ -57,7 +57,7 @@ const PrintPrescription = () => {
               <p>Mob: {prescriptionData.doctor.contact}</p>
             </div>
             <div className="text-right">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-lg font-semibold text-green-400">
                 {prescriptionData.clinic.name}
               </h2>
               <p>{prescriptionData.clinic.address}</p>
@@ -71,7 +71,7 @@ const PrintPrescription = () => {
 
           {/* Patient Info */}
           <div className="mt-4">
-            <div className="flex justify-between">
+            <div className="flex justify-between items-end">
               <div>
                 <p>ID: {prescriptionData.patient.id}</p>
                 <p>
@@ -84,19 +84,19 @@ const PrintPrescription = () => {
                 </p>
               </div>
               <div className="text-right">
+                <p>Date: {prescriptionData.prescriptionDate}</p>
                 <p>
                   Temp (°C): {prescriptionData.patient.temp}, BP:{' '}
                   {prescriptionData.patient.bp}
                 </p>
-                <p>Date: {prescriptionData.prescriptionDate}</p>
               </div>
             </div>
           </div>
 
           {/* Medicines Table */}
-          <table className="w-full mt-4 border-collapse border text-left">
+          <table className="w-full mt-4 border-collapse text-left">
             <thead>
-              <tr className="border-b">
+              <tr className="border-b-2 border-t-2 border-black">
                 <th className="p-2">Medicine Name</th>
                 <th className="p-2">Dosage</th>
                 <th className="p-2">Duration</th>
@@ -104,7 +104,7 @@ const PrintPrescription = () => {
             </thead>
             <tbody>
               {prescriptionData.medicines.map((medicine, index) => (
-                <tr key={index} className="border-b">
+                <tr key={index} className="">
                   <td className="p-2">{medicine.name}</td>
                   <td className="p-2">{medicine.dosage}</td>
                   <td className="p-2">{medicine.duration}</td>
@@ -145,7 +145,7 @@ const PrintPrescription = () => {
           Print
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
