@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import { DoctorContext } from '../context/DoctorContext';
 
 const AddPrescription = () => {
+  const navigate = useNavigate();
   const { addPrescription } = useContext(DoctorContext);
 
   const [diagnosis, setDiagnosis] = useState('');
@@ -35,7 +36,7 @@ const AddPrescription = () => {
 
   const handleSuggestionClick = (index, suggestion) => {
     const updatedMedications = [...medications];
-    updatedMedications[index].name = suggestion.name;
+    updatedMedications[index].medicineName = suggestion.name;
     setMedications(updatedMedications);
     setSuggestions([]); // Clear suggestions after selection
   };
@@ -138,6 +139,7 @@ const AddPrescription = () => {
                   onChange={(e) =>
                     handleMedicationChange(index, 'duration', e.target.value)
                   }
+                  onKeyDown={handleKeyPress}
                   placeholder="Duration (e.g., 7 days)"
                   required
                   className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"

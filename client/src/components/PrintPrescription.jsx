@@ -106,7 +106,7 @@ const PrintPrescription = () => {
               {prescriptionData.medicines.map((medicine, index) => (
                 <tr key={index} className="">
                   <td className="p-2">{medicine.name}</td>
-                  <td className="p-2">{medicine.dosage}</td>
+                  <td className="p-2">{medicine.dose}</td>
                   <td className="p-2">{medicine.duration}</td>
                 </tr>
               ))}
