@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ sidebarLinks, user, handleLogout }) => {
+const Navbar = ({ sidebarLinks, handleLogout }) => {
   const [selectedIndex, setSelectedIndex] = useState(() => {
-    // Retrieve the saved index from localStorage or default to 0
-    return parseInt(localStorage.getItem('selectedIndex')) || 0;
+    const currentPath = window.location.pathname;
+    const savedIndex = sidebarLinks.findIndex(
+      (link) => link.to === currentPath
+    );
+    return savedIndex !== -1 ? savedIndex : 0;
   });
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
 
   const handleClick = (index) => {
     setSelectedIndex(index);
-    localStorage.setItem('selectedIndex', index); // Save the index in localStorage
+    localStorage.setItem('selectedIndex', index);
   };
 
   const handleToggle = () => {
@@ -18,18 +21,10 @@ const Navbar = ({ sidebarLinks, user, handleLogout }) => {
   };
 
   const handleLogoutWithReset = () => {
-    setSelectedIndex(0); // Reset to the first element
-    localStorage.removeItem('selectedIndex'); // Clear the localStorage
-    handleLogout(); // Call the original logout function
+    setSelectedIndex(0);
+    localStorage.removeItem('selectedIndex');
+    handleLogout();
   };
-
-  useEffect(() => {
-    // Ensure the correct selected index is highlighted on initial load
-    const savedIndex = parseInt(localStorage.getItem('selectedIndex'));
-    if (savedIndex !== null && !isNaN(savedIndex)) {
-      setSelectedIndex(savedIndex);
-    }
-  }, []);
 
   return (
     <>

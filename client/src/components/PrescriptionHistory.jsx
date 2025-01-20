@@ -114,7 +114,7 @@ const PrescriptionHistory = () => {
                           >
                             <button
                               onClick={() => toggleExpand(prescription._id)}
-                              className="text-white bg-blue-500 font-medium rounded-lg text-xs px-2 py-1 hover:bg-blue-600"
+                              className="text-white bg-blue-500 font-medium rounded-lg text-sm px-2 py-1 hover:bg-blue-600"
                             >
                               {isExpanded ? "Hide All" : "View All"}
                             </button>

@@ -1,28 +1,56 @@
-import { useContext, useState } from "react";
-import { DoctorContext } from "../context/DoctorContext";
+import { useNavigate } from 'react-router-dom';
+import medicineData from '/medicineData.json';
+import { useContext, useState } from 'react';
+import { DoctorContext } from '../context/DoctorContext';
 
 const AddPrescription = () => {
+  const navigate = useNavigate();
   const { addPrescription } = useContext(DoctorContext);
 
-  const [diagnosis, setDiagnosis] = useState("");
+  const [diagnosis, setDiagnosis] = useState('');
   const [medications, setMedications] = useState([
-    { medicineName: "", dose: "", duration: "" },
+    { medicineName: '', dose: '', duration: '' },
   ]);
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
   const handleMedicationChange = (index, field, value) => {
     const updatedMedications = [...medications];
     updatedMedications[index][field] = value;
+
+    if (field === 'medicineName') {
+      if (value.trim() === '') {
+        setSuggestions([]);
+      } else {
+        const matches = medicineData
+          .filter((medicine) =>
+            medicine.name.toLowerCase().startsWith(value.toLowerCase())
+          )
+          .slice(0, 5);
+        setSuggestions(matches);
+      }
+    }
+
     setMedications(updatedMedications);
   };
 
+  const handleSuggestionClick = (index, suggestion) => {
+    const updatedMedications = [...medications];
+    updatedMedications[index].medicineName = suggestion.name;
+    setMedications(updatedMedications);
+    setSuggestions([]); // Clear suggestions after selection
+  };
+
   const addMedicationField = () => {
-    setMedications([...medications, { medicineName: "", dose: "", duration: "" }]);
+    setMedications([
+      ...medications,
+      { medicineName: '', dose: '', duration: '' },
+    ]);
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault(); 
+    if (event.key === 'Enter') {
+      event.preventDefault();
       addMedicationField();
     }
   };
@@ -31,13 +59,15 @@ const AddPrescription = () => {
     e.preventDefault();
     const prescriptionData = { diagnosis, medications, notes };
     addPrescription(prescriptionData);
+    navigate('/print-prescription', {
+      state: prescriptionData,
+    });
   };
 
   return (
     <div className="sm:ml-64 pt-20 px-10">
       <h2 className="text-2xl font-semibold mb-6">Add Prescription</h2>
       <div className="bg-white shadow-md rounded-lg p-6">
-        <p className="text-lg font-medium mb-4">Patient Name: Shantanu</p>
         <form onSubmit={handleSubmit}>
           {/* Diagnosis Field */}
           <div className="mb-4">
@@ -60,22 +90,44 @@ const AddPrescription = () => {
               Medications
             </label>
             {medications.map((med, index) => (
-              <div key={index} className="mb-4 grid grid-cols-3 gap-4">
-                <input
-                  type="text"
-                  value={med.medicineName}
-                  onChange={(e) =>
-                    handleMedicationChange(index, "medicineName", e.target.value)
-                  }
-                  placeholder="Medication Name"
-                  required
-                  className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
+              <div key={index} className="mb-4 grid grid-cols-3 gap-4 relative">
+                <div>
+                  <input
+                    type="text"
+                    value={med.medicineName}
+                    onChange={(e) =>
+                      handleMedicationChange(
+                        index,
+                        'medicineName',
+                        e.target.value
+                      )
+                    }
+                    placeholder="Medication Name"
+                    required
+                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                  {/* Suggestions Dropdown */}
+                  {suggestions.length > 0 && (
+                    <ul className="absolute bg-white border border-gray-300 rounded-lg shadow-md max-h-40 overflow-y-auto mt-1 w-full z-10">
+                      {suggestions.map((suggestion, i) => (
+                        <li
+                          key={i}
+                          onClick={() =>
+                            handleSuggestionClick(index, suggestion)
+                          }
+                          className="p-2 text-sm cursor-pointer hover:bg-gray-100"
+                        >
+                          {suggestion.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
                 <input
                   type="text"
                   value={med.dose}
                   onChange={(e) =>
-                    handleMedicationChange(index, "dose", e.target.value)
+                    handleMedicationChange(index, 'dose', e.target.value)
                   }
                   placeholder="Dosage (e.g., 1 morning, 1 night)"
                   required
@@ -85,9 +137,9 @@ const AddPrescription = () => {
                   type="text"
                   value={med.duration}
                   onChange={(e) =>
-                    handleMedicationChange(index, "duration", e.target.value)
+                    handleMedicationChange(index, 'duration', e.target.value)
                   }
-                  onKeyDown={(e) => handleKeyPress(e, index)}
+                  onKeyDown={handleKeyPress}
                   placeholder="Duration (e.g., 7 days)"
                   required
                   className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -97,7 +149,7 @@ const AddPrescription = () => {
             <button
               type="button"
               onClick={addMedicationField}
-              className="text-green-500 text-sm font-medium hover:text-green-700 "
+              className="text-green-500 text-sm font-medium hover:text-green-700"
             >
               + Add another medication
             </button>
