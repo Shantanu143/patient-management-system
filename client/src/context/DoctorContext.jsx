@@ -9,6 +9,7 @@ const DoctorContextProvider = (props) => {
   const { token, backendUrl } = useContext(AppContext);
   const navigate = useNavigate();
   const [patients, setPatients] = useState([]);
+  const [prescription, setPrescription] = useState([]);
 
   const fetchAllPatients = async () => {
     try {
@@ -49,13 +50,11 @@ const DoctorContextProvider = (props) => {
 
   const updatePatient = async (patientData) => {
     try {
-        
       const { data } = await axios.put(
         backendUrl + "/doctor/update-patient",
         patientData,
         { headers: { token } }
       );
-      
 
       if (data.success) {
         setPatients((prev) => {
@@ -95,12 +94,55 @@ const DoctorContextProvider = (props) => {
     }
   };
 
+  const fetchAllPrescription = async () => {
+    try {
+      const { data } = await axios.get(
+        backendUrl + "/doctor/get-all-prescription",
+        { headers: { token } }
+      );
+
+      if (data.success) {
+        setPrescription(data.data);
+        toast.success("All prescription fetched ..");
+      } else toast.error("error to fetch prescription");
+    } catch (error) {
+      toast.error(
+        "Fetch all prescription catch block error : " + error.message
+      );
+    }
+  };
+
+  const addPrescription = async (prescriptionData) => {
+    try {
+      console.log(prescriptionData);
+      const { data } = await axios.post(
+        backendUrl + "/doctor/add-prescription",
+        prescriptionData,
+        { headers: { token } }
+      );
+      
+      if (data.success) {
+        setPrescription((prev) => [...prev, data.newPrescription]);
+
+        navigate("/doctor-dashboard/print-prescription", {
+          state: prescriptionData,
+        });
+        toast.success("prescription added ");
+      }
+    } catch (error) {
+      toast.error("add prescription catch block error : " + error.message);
+    }
+  };
+
   const value = {
     fetchAllPatients,
     patients,
     addPatient,
     updatePatient,
     deletePatient,
+    fetchAllPrescription,
+    addPrescription,
+    prescription,
   };
   return (
     <DoctorContext.Provider value={value}>

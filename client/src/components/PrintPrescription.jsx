@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 
-const Prescription = () => {
+const PrintPrescription = () => {
   const location = useLocation();
   const { diagnosis = '', medications = [], notes = '' } = location.state || {};
 
-  const prescriptionRef = useRef(); // Reference for the component to print
+  const prescriptionRef = useRef();
 
   const handlePrint = useReactToPrint({
-    content: () => prescriptionRef.current, // Component to print
+    contentRef: prescriptionRef,
   });
 
   const prescriptionData = {
@@ -39,104 +39,105 @@ const Prescription = () => {
     medicines: medications,
   };
 
-  useEffect(() => {
-    console.log(location.state);
-  }, []);
-
   return (
-    <div className="prescription-container border p-6 max-w-4xl mx-auto text-sm sm:ml-64 pt-20 px-10">
-      {/* Header */}
-      <div ref={prescriptionRef} className="prescription-content">
-        <div className="flex justify-between items-start border-b pb-4">
-          <div>
-            <h1 className="text-lg font-bold">
-              {prescriptionData.doctor.name}
-            </h1>
-            <p>{prescriptionData.doctor.qualifications}</p>
-            <p>Reg. No: {prescriptionData.doctor.regNo}</p>
-            <p>Mob: {prescriptionData.doctor.contact}</p>
+    <>
+      <div
+        ref={prescriptionRef}
+        className="prescription-container border p-6 max-w-4xl mx-auto text-sm sm:ml-64 pt-20 px-10"
+      >
+        {/* Header */}
+        <div className="prescription-content">
+          <div className="flex justify-between items-start border-b pb-4">
+            <div>
+              <h1 className="text-lg font-bold">
+                {prescriptionData.doctor.name}
+              </h1>
+              <p>{prescriptionData.doctor.qualifications}</p>
+              <p>Reg. No: {prescriptionData.doctor.regNo}</p>
+              <p>Mob: {prescriptionData.doctor.contact}</p>
+            </div>
+            <div className="text-right">
+              <h2 className="text-lg font-bold">
+                {prescriptionData.clinic.name}
+              </h2>
+              <p>{prescriptionData.clinic.address}</p>
+              <p>Ph: {prescriptionData.clinic.phone}</p>
+              <p>
+                Timing: {prescriptionData.clinic.timings}, Closed:{' '}
+                {prescriptionData.clinic.closedDay}
+              </p>
+            </div>
           </div>
-          <div className="text-right">
-            <h2 className="text-lg font-bold">
-              {prescriptionData.clinic.name}
-            </h2>
-            <p>{prescriptionData.clinic.address}</p>
-            <p>Ph: {prescriptionData.clinic.phone}</p>
+
+          {/* Patient Info */}
+          <div className="mt-4">
+            <div className="flex justify-between">
+              <div>
+                <p>ID: {prescriptionData.patient.id}</p>
+                <p>
+                  <span className="font-bold">Name:</span>{' '}
+                  {prescriptionData.patient.name}
+                </p>
+                <p>
+                  <span className="font-bold">Address:</span>{' '}
+                  {prescriptionData.patient.address}
+                </p>
+              </div>
+              <div className="text-right">
+                <p>
+                  Temp (°C): {prescriptionData.patient.temp}, BP:{' '}
+                  {prescriptionData.patient.bp}
+                </p>
+                <p>Date: {prescriptionData.prescriptionDate}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Medicines Table */}
+          <table className="w-full mt-4 border-collapse border text-left">
+            <thead>
+              <tr className="border-b">
+                <th className="p-2">Medicine Name</th>
+                <th className="p-2">Dosage</th>
+                <th className="p-2">Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              {prescriptionData.medicines.map((medicine, index) => (
+                <tr key={index} className="border-b">
+                  <td className="p-2">{medicine.name}</td>
+                  <td className="p-2">{medicine.dosage}</td>
+                  <td className="p-2">{medicine.duration}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Advice and Follow-up */}
+          <div className="mt-4">
             <p>
-              Timing: {prescriptionData.clinic.timings}, Closed:{' '}
-              {prescriptionData.clinic.closedDay}
+              <span className="font-bold">Advice Given:</span>{' '}
+              {prescriptionData.advice}
+            </p>
+            <p>
+              <span className="font-bold">Follow-up:</span>{' '}
+              {prescriptionData.followUpDate}
+            </p>
+          </div>
+
+          {/* Footer */}
+          <div className="text-right mt-6">
+            <p className="font-bold">
+              Signature
+              <br />
+              {prescriptionData.doctor.name}
             </p>
           </div>
         </div>
 
-        {/* Patient Info */}
-        <div className="mt-4">
-          <div className="flex justify-between">
-            <div>
-              <p>ID: {prescriptionData.patient.id}</p>
-              <p>
-                <span className="font-bold">Name:</span>{' '}
-                {prescriptionData.patient.name}
-              </p>
-              <p>
-                <span className="font-bold">Address:</span>{' '}
-                {prescriptionData.patient.address}
-              </p>
-            </div>
-            <div className="text-right">
-              <p>
-                Temp (°C): {prescriptionData.patient.temp}, BP:{' '}
-                {prescriptionData.patient.bp}
-              </p>
-              <p>Date: {prescriptionData.prescriptionDate}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Medicines Table */}
-        <table className="w-full mt-4 border-collapse border text-left">
-          <thead>
-            <tr className="border-b">
-              <th className="p-2">Medicine Name</th>
-              <th className="p-2">Dosage</th>
-              <th className="p-2">Duration</th>
-            </tr>
-          </thead>
-          <tbody>
-            {prescriptionData.medicines.map((medicine, index) => (
-              <tr key={index} className="border-b">
-                <td className="p-2">{medicine.name}</td>
-                <td className="p-2">{medicine.dosage}</td>
-                <td className="p-2">{medicine.duration}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Advice and Follow-up */}
-        <div className="mt-4">
-          <p>
-            <span className="font-bold">Advice Given:</span>{' '}
-            {prescriptionData.advice}
-          </p>
-          <p>
-            <span className="font-bold">Follow-up:</span>{' '}
-            {prescriptionData.followUpDate}
-          </p>
-        </div>
-
-        {/* Footer */}
-        <div className="text-right mt-6">
-          <p className="font-bold">
-            Signature
-            <br />
-            {prescriptionData.doctor.name}
-          </p>
-        </div>
+        {/* Print Button */}
       </div>
-
-      {/* Print Button */}
-      <div className="text-right mt-6">
+      <div className="text-center px-2 py-1 mt-6">
         <button
           onClick={handlePrint}
           className="bg-green-500 text-white font-medium rounded-lg p-2 text-sm hover:bg-green-600"
@@ -144,8 +145,8 @@ const Prescription = () => {
           Print
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
-export default Prescription;
+export default PrintPrescription;
