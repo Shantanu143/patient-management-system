@@ -1,63 +1,15 @@
-import { Link, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { DoctorContext } from "../context/DoctorContext";
 
 const PrescriptionHistory = () => {
-  const { patientId } = useParams(); // Get patient ID from route parameters
-  const [prescriptions, setPrescriptions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [expandedPrescriptions, setExpandedPrescriptions] = useState({}); // Track expanded state
+  const { fetchAllPrescription, prescription } = useContext(DoctorContext);
+  const { patientId } = useParams();
+  const [expandedPrescriptions, setExpandedPrescriptions] = useState({});
 
   useEffect(() => {
-    const fetchPrescriptions = async () => {
-      setLoading(true);
-      try {
-        const data = [
-          {
-            _id: '1',
-            date: '2025-01-01',
-            diagnosis: 'Malaria',
-            medications: [
-              {
-                name: 'Paracetamol',
-                dosage: '1 morning, 1 night',
-                duration: '10 days (20 tablets)',
-              },
-              {
-                name: 'Ibuprofen',
-                dosage: '1 after lunch',
-                duration: '5 days (5 tablets)',
-              },
-            ],
-            notes: 'Take with food.',
-          },
-          {
-            _id: '2',
-            date: '2025-01-10',
-            diagnosis: 'Typhoid',
-            medications: [
-              {
-                name: 'Amoxicillin',
-                dosage: '1 morning, 1 night',
-                duration: '7 days (14 tablets)',
-              },
-              {
-                name: 'Vitamin C',
-                dosage: '1 after breakfast',
-                duration: '7 days (7 tablets)',
-              },
-            ],
-            notes: 'Complete the full course.',
-          },
-        ];
-        setPrescriptions(data);
-      } catch (error) {
-        console.error('Error fetching prescription history:', error);
-      }
-      setLoading(false);
-    };
-
     if (patientId) {
-      fetchPrescriptions();
+      fetchAllPrescription();
     }
   }, [patientId]);
 
@@ -68,11 +20,7 @@ const PrescriptionHistory = () => {
     }));
   };
 
-  if (loading) {
-    return <p>Loading prescription history...</p>;
-  }
-
-  if (prescriptions.length === 0) {
+  if (prescription.length === 0) {
     return <p>No prescriptions found for this patient.</p>;
   }
 
@@ -110,10 +58,10 @@ const PrescriptionHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {prescriptions.map((prescription) => {
+            {prescription.map((prescription) => {
               const isExpanded =
                 expandedPrescriptions[prescription._id] || false;
-              return prescription.medications.map((med, index) => {
+              return prescription.medications?.map((med, index) => {
                 const showRow = isExpanded || index === 0;
                 return (
                   showRow && (
@@ -121,8 +69,8 @@ const PrescriptionHistory = () => {
                       key={`${prescription._id}-${index}`}
                       className={`bg-white border-b hover:bg-gray-50 ${
                         index === prescription.medications.length - 1
-                          ? 'border-b-2 border-gray-300'
-                          : ''
+                          ? "border-b-2 border-gray-300"
+                          : ""
                       }`}
                     >
                       {index === 0 && (
@@ -133,7 +81,7 @@ const PrescriptionHistory = () => {
                               isExpanded ? prescription.medications.length : 1
                             }
                           >
-                            {prescription.date}
+                            {prescription.createdAt.slice(0, 10)}
                           </td>
                           <td
                             className="px-6 py-4"
@@ -145,8 +93,8 @@ const PrescriptionHistory = () => {
                           </td>
                         </>
                       )}
-                      <td className="px-6 py-4">{med.name}</td>
-                      <td className="px-6 py-4">{med.dosage}</td>
+                      <td className="px-6 py-4">{med.medicineName}</td>
+                      <td className="px-6 py-4">{med.dose}</td>
                       <td className="px-6 py-4">{med.duration}</td>
                       {index === 0 && (
                         <>
@@ -156,7 +104,7 @@ const PrescriptionHistory = () => {
                               isExpanded ? prescription.medications.length : 1
                             }
                           >
-                            {prescription.notes || 'N/A'}
+                            {prescription.notes || "N/A"}
                           </td>
                           <td
                             className="px-6 py-4"
@@ -168,7 +116,7 @@ const PrescriptionHistory = () => {
                               onClick={() => toggleExpand(prescription._id)}
                               className="text-white bg-blue-500 font-medium rounded-lg text-xs px-2 py-1 hover:bg-blue-600"
                             >
-                              {isExpanded ? 'Hide All' : 'View All'}
+                              {isExpanded ? "Hide All" : "View All"}
                             </button>
                           </td>
                         </>

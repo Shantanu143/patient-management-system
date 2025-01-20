@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import doctorModel from "../models/doctorModel.js";
 import bcrypt from "bcrypt";
 import patientModel from "../models/patientModel.js";
+import prescriptionModel from "../models/prescriptionModel.js";
 
 const loginDoctor = async (req, res) => {
   try {
@@ -19,7 +20,6 @@ const loginDoctor = async (req, res) => {
       });
     }
     const doctor = await doctorModel.findOne({ email });
-
 
     if (!doctor) {
       return res
@@ -210,6 +210,54 @@ const deletePatient = async (req, res) => {
   }
 };
 
+const addPrescription = async (req, res) => {
+  try {
+    const doctorId = req.user.id;
+    const { medications, diagnosis, notes } = req.body;
+    if ((!medications, !doctorId, !diagnosis, !notes)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Some fileds are missing :)" });
+    }
+
+    const prescriptionData = {
+      medications,
+      doctorId,
+      diagnosis,
+      notes,
+    };
+
+    const prescription = await new prescriptionModel(prescriptionData);
+
+    const data = await prescription.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Prescription Added successfully ",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Add Prescription Catch Block Error : " + error.message,
+    });
+  }
+};
+
+const getAllPrescriptions = async (req, res) => {
+  try {
+    const doctorId = req.user.id;
+    const prescriptionDetials = await prescriptionModel.find({
+      doctorId,
+    });
+    res.status(200).json({ success: true, data: prescriptionDetials });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "get all prescription catch block error :  " + error.message,
+    });
+  }
+};
+
 export {
   loginDoctor,
   registerPatient,
@@ -217,4 +265,6 @@ export {
   getPatient,
   updatePatient,
   deletePatient,
+  addPrescription,
+  getAllPrescriptions,
 };
