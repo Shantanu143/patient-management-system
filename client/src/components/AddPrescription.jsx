@@ -1,25 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import medicineData from '/medicineData.json';
-import { useContext, useState } from 'react';
-import { DoctorContext } from '../context/DoctorContext';
+
+import medicineData from "/medicineData.json";
+import { useContext, useState } from "react";
+import { DoctorContext } from "../context/DoctorContext";
 
 const AddPrescription = () => {
-  const navigate = useNavigate();
   const { addPrescription } = useContext(DoctorContext);
 
-  const [diagnosis, setDiagnosis] = useState('');
+  const [diagnosis, setDiagnosis] = useState("");
   const [medications, setMedications] = useState([
-    { medicineName: '', dose: '', duration: '' },
+    { medicineName: "", dose: "", duration: "" },
   ]);
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
   const handleMedicationChange = (index, field, value) => {
     const updatedMedications = [...medications];
     updatedMedications[index][field] = value;
 
-    if (field === 'medicineName') {
-      if (value.trim() === '') {
+    if (field === "medicineName") {
+      if (value.trim() === "") {
         setSuggestions([]);
       } else {
         const matches = medicineData
@@ -44,12 +43,12 @@ const AddPrescription = () => {
   const addMedicationField = () => {
     setMedications([
       ...medications,
-      { medicineName: '', dose: '', duration: '' },
+      { medicineName: "", dose: "", duration: "" },
     ]);
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       addMedicationField();
     }
@@ -95,7 +94,7 @@ const AddPrescription = () => {
                     onChange={(e) =>
                       handleMedicationChange(
                         index,
-                        'medicineName',
+                        "medicineName",
                         e.target.value
                       )
                     }
@@ -124,7 +123,7 @@ const AddPrescription = () => {
                   type="text"
                   value={med.dose}
                   onChange={(e) =>
-                    handleMedicationChange(index, 'dose', e.target.value)
+                    handleMedicationChange(index, "dose", e.target.value)
                   }
                   placeholder="Dosage (e.g., 1 morning, 1 night)"
                   required
@@ -134,7 +133,7 @@ const AddPrescription = () => {
                   type="text"
                   value={med.duration}
                   onChange={(e) =>
-                    handleMedicationChange(index, 'duration', e.target.value)
+                    handleMedicationChange(index, "duration", e.target.value)
                   }
                   onKeyDown={handleKeyPress}
                   placeholder="Duration (e.g., 7 days)"
