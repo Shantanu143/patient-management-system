@@ -4,13 +4,25 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({ sidebarLinks, handleLogout }) => {
   const [selectedIndex, setSelectedIndex] = useState(() => {
+<<<<<<< main
+    const currentPath = window.location.pathname;
+    const savedIndex = sidebarLinks.findIndex(
+      (link) => link.to === currentPath
+    );
+    return savedIndex !== -1 ? savedIndex : 0;
+=======
     return parseInt(localStorage.getItem("selectedIndex")) || 0;
+>>>>>>> main
   });
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
 
   const handleClick = (index) => {
     setSelectedIndex(index);
+<<<<<<< main
+    localStorage.setItem('selectedIndex', index);
+=======
     localStorage.setItem("selectedIndex", index); // Save the index in localStorage
+>>>>>>> main
   };
 
   const handleToggle = () => {
@@ -18,6 +30,13 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
   };
 
   const handleLogoutWithReset = () => {
+<<<<<<< main
+    setSelectedIndex(0);
+    localStorage.removeItem('selectedIndex');
+    handleLogout();
+  };
+
+=======
     setSelectedIndex(0); // Reset to the first element
     localStorage.removeItem("selectedIndex"); // Clear the localStorage
     handleLogout(); // Call the original logout function
@@ -31,6 +50,7 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
     }
   }, []);
 
+>>>>>>> main
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200">

@@ -60,7 +60,6 @@ const DoctorDashboard = () => {
           element={<PrescriptionHistory />}
         />
         <Route path="/add-prescription" element={<AddPrescription />} />
-        <Route path="/print-prescription" element={<PrintPrescription />} />
       </Routes>
     </div>
   );

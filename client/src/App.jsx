@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './Routes/ProtectedRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
+import PrintPrescription from './components/PrintPrescription';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
             />
           }
         />
+        <Route path="/print-prescription" element={<PrintPrescription />} />
       </Routes>
 
       <ToastContainer />
