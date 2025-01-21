@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ sidebarLinks, handleLogout }) => {
   const [selectedIndex, setSelectedIndex] = useState(() => {
@@ -14,7 +14,7 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
 
   const handleClick = (index) => {
     setSelectedIndex(index);
-    localStorage.setItem('selectedIndex', index);
+    localStorage.setItem("selectedIndex", index);
   };
 
   const handleToggle = () => {
@@ -23,7 +23,7 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
 
   const handleLogoutWithReset = () => {
     setSelectedIndex(0);
-    localStorage.removeItem('selectedIndex');
+    localStorage.removeItem("selectedIndex");
     handleLogout();
   };
 
@@ -69,7 +69,7 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
       <aside
         id="logo-sidebar"
         className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-all duration-300  bg-white border-r border-gray-200 sm:translate-x-0 ${
-          toggle ? '-translate-x-0' : '-translate-x-full'
+          toggle ? "-translate-x-0" : "-translate-x-full"
         } `}
         aria-label="Sidebar"
       >
@@ -85,8 +85,8 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
                   }}
                   className={`flex items-center p-2 rounded-lg group transition-all ease-out ${
                     selectedIndex === index
-                      ? 'text-white bg-[#4880FF]'
-                      : 'text-gray-900 hover:text-white hover:bg-[#4880FF]'
+                      ? "text-white bg-[#4880FF]"
+                      : "text-gray-900 hover:text-white hover:bg-[#4880FF]"
                   }`}
                 >
                   <span className="ms-3">{link.text}</span>

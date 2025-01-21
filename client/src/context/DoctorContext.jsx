@@ -124,7 +124,7 @@ const DoctorContextProvider = (props) => {
       if (data.success) {
         setPrescription((prev) => [...prev, data.newPrescription]);
 
-        navigate("/doctor-dashboard/print-prescription", {
+        navigate("/print-prescription", {
           state: prescriptionData,
         });
         toast.success("prescription added ");

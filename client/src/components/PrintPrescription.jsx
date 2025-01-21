@@ -14,13 +14,13 @@ const PrintPrescription = () => {
 
   const prescriptionData = {
     doctor: {
-      name: 'Dr. Onkar Bhave',
+      medicineName: 'Dr. Onkar Bhave',
       qualifications: 'M.B.B.S., M.D., M.S.',
       regNo: '270988',
       contact: '8983390126',
     },
     clinic: {
-      name: 'Care Clinic',
+      medicineName: 'Care Clinic',
       address: 'Near Axis Bank, Kothrud, Pune - 411038',
       phone: '09423380390',
       timings: '09:00 AM - 02:00 PM',
@@ -28,7 +28,7 @@ const PrintPrescription = () => {
     },
     patient: {
       id: '266',
-      name: 'DEMO PATIENT (M)',
+      medicineName: 'DEMO PATIENT (M)',
       address: 'PUNE',
       temp: '36°C',
       bp: '120/80 mmHg',
@@ -50,7 +50,7 @@ const PrintPrescription = () => {
           <div className="flex justify-between items-start border-b pb-4">
             <div>
               <h1 className="text-lg font-semibold text-green-400">
-                {prescriptionData.doctor.name}
+                {prescriptionData.doctor.medicineName}
               </h1>
               <p>{prescriptionData.doctor.qualifications}</p>
               <p>Reg. No: {prescriptionData.doctor.regNo}</p>
@@ -58,7 +58,7 @@ const PrintPrescription = () => {
             </div>
             <div className="text-right">
               <h2 className="text-lg font-semibold text-green-400">
-                {prescriptionData.clinic.name}
+                {prescriptionData.clinic.medicineName}
               </h2>
               <p>{prescriptionData.clinic.address}</p>
               <p>Ph: {prescriptionData.clinic.phone}</p>
@@ -75,8 +75,8 @@ const PrintPrescription = () => {
               <div>
                 <p>ID: {prescriptionData.patient.id}</p>
                 <p>
-                  <span className="font-bold">Name:</span>{' '}
-                  {prescriptionData.patient.name}
+                  <span className="font-bold">medicineName:</span>{' '}
+                  {prescriptionData.patient.medicineName}
                 </p>
                 <p>
                   <span className="font-bold">Address:</span>{' '}
@@ -97,7 +97,7 @@ const PrintPrescription = () => {
           <table className="w-full mt-4 border-collapse text-left">
             <thead>
               <tr className="border-b-2 border-t-2 border-black">
-                <th className="p-2">Medicine Name</th>
+                <th className="p-2">Medicine medicineName</th>
                 <th className="p-2">Dosage</th>
                 <th className="p-2">Duration</th>
               </tr>
@@ -105,7 +105,7 @@ const PrintPrescription = () => {
             <tbody>
               {prescriptionData.medicines.map((medicine, index) => (
                 <tr key={index} className="">
-                  <td className="p-2">{medicine.name}</td>
+                  <td className="p-2">{medicine.medicineName}</td>
                   <td className="p-2">{medicine.dose}</td>
                   <td className="p-2">{medicine.duration}</td>
                 </tr>
@@ -130,7 +130,7 @@ const PrintPrescription = () => {
             <p className="font-bold">
               Signature
               <br />
-              {prescriptionData.doctor.name}
+              {prescriptionData.doctor.medicineName}
             </p>
           </div>
         </div>
