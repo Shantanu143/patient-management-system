@@ -1,19 +1,28 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ sidebarLinks, handleLogout }) => {
   const [selectedIndex, setSelectedIndex] = useState(() => {
+<<<<<<< main
     const currentPath = window.location.pathname;
     const savedIndex = sidebarLinks.findIndex(
       (link) => link.to === currentPath
     );
     return savedIndex !== -1 ? savedIndex : 0;
+=======
+    return parseInt(localStorage.getItem("selectedIndex")) || 0;
+>>>>>>> main
   });
   const [toggle, setToggle] = useState(false);
 
   const handleClick = (index) => {
     setSelectedIndex(index);
+<<<<<<< main
     localStorage.setItem('selectedIndex', index);
+=======
+    localStorage.setItem("selectedIndex", index); // Save the index in localStorage
+>>>>>>> main
   };
 
   const handleToggle = () => {
@@ -21,11 +30,27 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
   };
 
   const handleLogoutWithReset = () => {
+<<<<<<< main
     setSelectedIndex(0);
     localStorage.removeItem('selectedIndex');
     handleLogout();
   };
 
+=======
+    setSelectedIndex(0); // Reset to the first element
+    localStorage.removeItem("selectedIndex"); // Clear the localStorage
+    handleLogout(); // Call the original logout function
+  };
+
+  useEffect(() => {
+    // Ensure the correct selected index is highlighted on initial load
+    const savedIndex = parseInt(localStorage.getItem("selectedIndex"));
+    if (savedIndex !== null && !isNaN(savedIndex)) {
+      setSelectedIndex(savedIndex);
+    }
+  }, []);
+
+>>>>>>> main
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
@@ -68,7 +93,7 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
       <aside
         id="logo-sidebar"
         className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-all duration-300  bg-white border-r border-gray-200 sm:translate-x-0 ${
-          toggle ? '-translate-x-0' : '-translate-x-full'
+          toggle ? "-translate-x-0" : "-translate-x-full"
         } `}
         aria-label="Sidebar"
       >
@@ -84,8 +109,8 @@ const Navbar = ({ sidebarLinks, handleLogout }) => {
                   }}
                   className={`flex items-center p-2 rounded-lg group transition-all ease-out ${
                     selectedIndex === index
-                      ? 'text-white bg-[#4880FF]'
-                      : 'text-gray-900 hover:text-white hover:bg-[#4880FF]'
+                      ? "text-white bg-[#4880FF]"
+                      : "text-gray-900 hover:text-white hover:bg-[#4880FF]"
                   }`}
                 >
                   <span className="ms-3">{link.text}</span>
