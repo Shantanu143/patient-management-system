@@ -59,9 +59,6 @@ const AddPrescription = () => {
     e.preventDefault();
     const prescriptionData = { diagnosis, medications, notes };
     addPrescription(prescriptionData);
-    navigate('/print-prescription', {
-      state: prescriptionData,
-    });
   };
 
   return (

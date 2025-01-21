@@ -37,16 +37,17 @@ const PrintPrescription = () => {
     followUpDate: '12-May-2020',
     advice: notes,
     medicines: medications,
+    diagnosis: diagnosis,
   };
 
   return (
     <div className="flex items-center flex-col justify-center min-h-screen">
       <div
         ref={prescriptionRef}
-        className="prescription-container border p-6 max-w-4xl mx-auto text-sm"
+        className="prescription-container border flex flex-col justify-center p-6 max-w-4xl mx-auto text-sm "
       >
         {/* Header */}
-        <div className="prescription-content">
+        <div className="prescription-content h-full flex flex-col justify-between">
           <div className="flex justify-between items-start border-b pb-4">
             <div>
               <h1 className="text-lg font-semibold text-green-400">
@@ -93,6 +94,15 @@ const PrintPrescription = () => {
             </div>
           </div>
 
+          {/* Dignoasis */}
+          <div className="mt-4">
+            <div className="flex justify-start gap-1 items-end">
+              <span className="font-bold">Diagnosis:</span>
+
+              <div className="capitalize"> {prescriptionData.diagnosis}</div>
+            </div>
+          </div>
+
           {/* Medicines Table */}
           <table className="w-full mt-4 border-collapse text-left">
             <thead>
@@ -105,7 +115,7 @@ const PrintPrescription = () => {
             <tbody>
               {prescriptionData.medicines.map((medicine, index) => (
                 <tr key={index} className="">
-                  <td className="p-2">{medicine.name}</td>
+                  <td className="p-2">{medicine.medicineName}</td>
                   <td className="p-2">{medicine.dose}</td>
                   <td className="p-2">{medicine.duration}</td>
                 </tr>
