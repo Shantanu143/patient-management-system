@@ -8,6 +8,7 @@ import ProtectedRoute from './Routes/ProtectedRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
 import PrintPrescription from './components/PrintPrescription';
+import NewLandingPage from './pages/NewLandingPage';
 
 const App = () => {
   return (
