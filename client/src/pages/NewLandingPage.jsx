@@ -17,12 +17,12 @@ const NewLandingPage = () => {
 
   return (
     <div className="bg-[#E1EEFF] font-nunito">
-      <div className="min-h-screen font-nunito max-w-screen-2xl mx-auto">
+      <div className="min-h-screen font-nunito ">
         {/* navbar */}
         <nav className="w-full px-4 md:px-8 py-4 md:py-6 bg-[#E1EEFF]">
           <div className="flex flex-row justify-between items-center">
             <div className="text-xl font-medium">LoGo</div>
-            <div className=" flex flex-row items-center justify-between gap-6    ">
+            <div className=" md:flex flex-row items-center justify-between md:gap-6 gap-2 hidden">
               <a href="#" className="text-slate-500 font-medium">
                 Home
               </a>
@@ -51,7 +51,7 @@ const NewLandingPage = () => {
                   </button>
                 </Link>
               )}
-              <button className="px-3 py-1 bg-blue-500 text-white border border-white rounded-full font-medium">
+              <button className="px-3 py-1 bg-blue-500 text-white border border-white rounded-full font-medium text-sm md:text-base">
                 Register
               </button>
             </div>
@@ -62,7 +62,7 @@ const NewLandingPage = () => {
         <div className="bg-[#E1EEFF]">
           <div className="w-full h-full relative">
             <div className="flex flex-col w-full bg-[#E1EEFF] px-4 md:px-8 py-8 md:py-14">
-              <div className="w-1/2 flex-grow">
+              <div className="md:w-1/2 flex-grow">
                 <div className="font-extrabold text-[clamp(2rem,6.5vw,6rem)] leading-none">
                   <span className="text-black">Effortless </span>
                   <span className="text-blue-700 block">Clinic</span>
@@ -80,19 +80,19 @@ const NewLandingPage = () => {
             </div>
             <div className="bg-blue-700 text-white">
               <div className="flex flex-row items-center justify-start px-2 md:px-8 py-4 md:py-6">
-                <div className="flex flex-col items-center border-r border-white md:px-4 px-2">
+                <div className="flex flex-col items-center text-center border-r border-white md:px-4 px-2">
                   <span className="lg:text-5xl md:text-2xl font-extrabold">
                     100%
                   </span>
                   <span>Uptime Guarantee</span>
                 </div>
-                <div className="flex flex-col items-center border-r border-white md:px-4 px-2">
+                <div className="flex flex-col items-center text-center border-r border-white md:px-4 px-2">
                   <span className="lg:text-5xl md:text-2xl font-extrabold">
                     24/7
                   </span>
                   <span>Tech Support</span>
                 </div>
-                <div className="flex flex-col items-center  border-white md:px-4  px-2">
+                <div className="flex flex-col items-center text-center  border-white md:px-4  px-2">
                   <span className="lg:text-5xl md:text-2xl font-extrabold">
                     10x
                   </span>
@@ -111,8 +111,8 @@ const NewLandingPage = () => {
         </div>
 
         {/* about */}
-        <div className="px-4 md:px-8 py-8 md:py-14 w-full bg-white flex  items-center ">
-          <div className="w-3/5 ">
+        <div className="px-4 md:px-8 py-8 md:py-14 w-full bg-white flex flex-col sm:flex-row items-center ">
+          <div className="sm:w-3/5 w-full">
             <h3 className="leading-none font-nunito font-extrabold w-full">
               <span className="lg:text-6xl xl:text-7xl md:text-4xl text-2xl block">
                 Efficient Management
@@ -121,7 +121,7 @@ const NewLandingPage = () => {
                 Guaranteed!
               </span>
             </h3>
-            <div className="w-4/5 ">
+            <div className="sm:w-4/5 w-full">
               <p className="lg:text-2xl md:text-xl text-lg font-medium py-4">
                 Welcome to [Software Name], your trusted solution for modern
                 clinic management. Designed with healthcare professionals in
@@ -163,7 +163,7 @@ const NewLandingPage = () => {
               },
             ].map((item, index) => (
               <div
-                className="px-6 py-6 rounded-tl-[5rem] rounded-br-[5rem] bg-white border-2 border-orange-300 flex flex-col items-center h-full"
+                className="px-6 py-6 rounded-tl-[5rem] rounded-br-[5rem] bg-white border-2 border-orange-300 flex flex-col items-center hover:-translate-y-1 transition-all"
                 key={index}
               >
                 <div className="h-2/3 flex items-center justify-center">
@@ -198,16 +198,16 @@ const NewLandingPage = () => {
               </span>
             </h3>
             <div className="my-3">
-              <p className="lg:text-2xl text-lg font-medium py-1">
+              <p className="lg:text-2xl md:text-lg text-base font-medium py-1">
                 Access patient records instantly.
               </p>
-              <p className="lg:text-2xl text-lg font-medium py-1">
+              <p className="lg:text-2xl md:text-lg text-base font-medium py-1">
                 Add prescriptions with ease.
               </p>
-              <p className="lg:text-2xl text-lg font-medium py-1">
+              <p className="lg:text-2xl md:text-lg text-base font-medium py-1">
                 Manage appointments and follow-ups.
               </p>
-              <p className="lg:text-2xl text-lg font-medium py-1">
+              <p className="lg:text-2xl md:text-lg text-base font-medium py-1">
                 Generate medical certificates and treatment summaries.
               </p>
             </div>
@@ -231,13 +231,13 @@ const NewLandingPage = () => {
               </span>
             </h3>
             <div className="my-3">
-              <p className="lg:text-2xl text-lg font-medium py-1">
+              <p className="lg:text-2xl md:text-lg text-base font-medium py-1">
                 Book appointments seamlessly.
               </p>
-              <p className="lg:text-2xl text-lg font-medium py-1">
+              <p className="lg:text-2xl md:text-lg text-base font-medium py-1">
                 Provide bills and manage payments.
               </p>
-              <p className="lg:text-2xl text-lg font-medium py-1">
+              <p className="lg:text-2xl md:text-lg text-base font-medium py-1">
                 Manage patient queues effectively.
               </p>
             </div>
@@ -320,30 +320,42 @@ const PricingDetails = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-white">
+    <div className=" p-6 bg-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
         {plans.map((plan, index) => (
           <div
             key={index}
-            className="border rounded-lg shadow-lg p-6 flex flex-col items-center max-w-80"
+            className="border rounded-lg shadow-md p-6 flex flex-col items-center hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ease-out"
           >
-            <span className="text-sm font-bold uppercase bg-gray-100 px-2 py-1 rounded-md mb-4 ">
+            <span className="text-sm font-bold uppercase bg-gray-100 px-2 py-1 rounded-md mb-4 text-left self-start">
               {plan.title}
             </span>
-            <p className="text-start text-gray-600 mb-4">{plan.description}</p>
-            <h3 className="text-2xl font-bold mb-2">{plan.price}</h3>
-            {plan.period && (
-              <p className="text-gray-500 text-sm mb-4">{plan.period}</p>
-            )}
+            <p className="text-start text-gray-600 text-sm">
+              {plan.description}
+            </p>
+            <div className="py-3 border-y w-full text-center my-3">
+              <h3 className="lg:text-5xl text-2xl font-extrabold mb-2 font-nunito">
+                {plan.price}
+              </h3>
+              {plan.period && (
+                <p className="text-gray-500 text-sm font-semibold">
+                  {plan.period}
+                </p>
+              )}
+            </div>
             <ul className="space-y-2 text-gray-600 text-sm mb-6">
               {plan.features.map((feature, index) => (
-                <li key={index} className="flex items-center">
-                  <span className="text-green-500 mr-2">✔</span>
+                <li key={index} className="flex items-start text-black text-sm">
+                  <span className="text-white bg-black rounded-[50%] px-1 mr-2">
+                    ✔
+                  </span>
                   {feature}
                 </li>
               ))}
             </ul>
-            <button className={`py-2 px-4 rounded ${plan.button.style}`}>
+            <button
+              className={`py-2 px-4 rounded text-sm font-bold ${plan.button.style}`}
+            >
               {plan.button.text}
             </button>
           </div>
