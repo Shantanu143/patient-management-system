@@ -15,6 +15,7 @@ export default {
 
       fontFamily: {
         inter: ['inter', 'sans-serif'],
+        nunito: ['Nunito Sans', 'inter'],
       },
       colors: {
         buttonPurple: 'rgba(98, 38, 239, 0.2)',

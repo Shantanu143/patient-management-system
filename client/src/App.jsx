@@ -8,12 +8,13 @@ import ProtectedRoute from './Routes/ProtectedRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
 import PrintPrescription from './components/PrintPrescription';
+import NewLandingPage from './pages/NewLandingPage';
 
 const App = () => {
   return (
     <div className="min-h-screen ">
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<NewLandingPage />} />
         <Route path="/login" element={<LoginPage />} />
 
         {/* protected routes  */}

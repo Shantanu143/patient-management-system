@@ -31,7 +31,7 @@ const LandingPage = () => {
           {token ? (
             <button
               onClick={handleLogout}
-              className="md:px-4 md:py-2 px-2 py-1 text-sm md:text-base rounded-xl border-2 border-blue-300 hover:text-blue-500 transition-all hover:-translate-y-1"
+              className="px-3 py-1 text-blue-500 bg-white border border-blue-500 rounded-full font-medium"
             >
               logout
             </button>
