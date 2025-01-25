@@ -227,6 +227,6 @@ We welcome contributions! Please follow these steps:
 ## Contact
 
 For any queries or issues, please contact:
-- Email: [shantanunirapal@gmail.com](shantanunirapal@gmail.com)
+- Email:[email me](mailto:shantanunirapal@gmail.com?subject=Hello&body=I%20have%20a%20question%20about%20your%20project).
 - GitHub: [GitHub Repository](https://github.com/Shantanu143/patient-management-system.git)
 
