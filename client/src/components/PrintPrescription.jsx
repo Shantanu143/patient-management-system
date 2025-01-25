@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-// import { useReactToPrint } from 'react-to-print';
+import { useReactToPrint } from 'react-to-print';
 
 const PrintPrescription = () => {
   const location = useLocation();
@@ -8,9 +8,9 @@ const PrintPrescription = () => {
 
   const prescriptionRef = useRef();
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const handlePrint = useReactToPrint({
+    contentRef: prescriptionRef,
+  });
 
   const prescriptionData = {
     doctor: {
