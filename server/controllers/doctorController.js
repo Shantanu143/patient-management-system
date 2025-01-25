@@ -213,7 +213,12 @@ const deletePatient = async (req, res) => {
 const addPrescription = async (req, res) => {
   try {
     const doctorId = req.user.id;
-    const { medications, diagnosis, notes } = req.body;
+    const { medications, diagnosis, notes, patientId } = req.body;
+    if (!patientId) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Patient not exits !!!" });
+    }
     if ((!medications, !doctorId, !diagnosis, !notes)) {
       return res
         .status(400)
@@ -225,6 +230,7 @@ const addPrescription = async (req, res) => {
       doctorId,
       diagnosis,
       notes,
+      patientId,
     };
 
     const prescription = await new prescriptionModel(prescriptionData);
@@ -246,8 +252,23 @@ const addPrescription = async (req, res) => {
 const getAllPrescriptions = async (req, res) => {
   try {
     const doctorId = req.user.id;
+    const { patientId } = req.body;
+
+    if (!doctorId) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Doctor not exits !!" });
+    }
+
+    if (!patientId) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Patient not exits !!" });
+    }
+
     const prescriptionDetials = await prescriptionModel.find({
       doctorId,
+      patientId,
     });
     res.status(200).json({ success: true, data: prescriptionDetials });
   } catch (error) {
