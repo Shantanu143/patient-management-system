@@ -14,6 +14,11 @@ const PrescriptionSchema = mongoose.Schema(
       ref: "doctor",
       require: true,
     },
+    patientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "patient",
+      require: true,
+    },
     diagnosis: {
       type: String,
       require: false,

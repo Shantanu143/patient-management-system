@@ -23,6 +23,6 @@ doctorRouter.put("/update-patient", authDoctor, updatePatient);
 doctorRouter.delete("/delete-patient", authDoctor, deletePatient);
 // prescription
 doctorRouter.post("/add-prescription", authDoctor, addPrescription);
-doctorRouter.get("/get-all-prescription", authDoctor, getAllPrescriptions);
+doctorRouter.post("/get-all-prescription", authDoctor, getAllPrescriptions);
 
 export default doctorRouter;

@@ -1,11 +1,11 @@
-
 import medicineData from "/medicineData.json";
 import { useContext, useState } from "react";
 import { DoctorContext } from "../context/DoctorContext";
+import { useParams } from "react-router-dom";
 
 const AddPrescription = () => {
   const { addPrescription } = useContext(DoctorContext);
-
+  const { patientId } = useParams();
   const [diagnosis, setDiagnosis] = useState("");
   const [medications, setMedications] = useState([
     { medicineName: "", dose: "", duration: "" },
@@ -56,7 +56,7 @@ const AddPrescription = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const prescriptionData = { diagnosis, medications, notes };
+    const prescriptionData = { diagnosis, medications, notes, patientId };
     addPrescription(prescriptionData);
   };
 
