@@ -1,40 +1,55 @@
-import { useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useReactToPrint } from 'react-to-print';
+import { useContext, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
+import { DoctorContext } from "../context/DoctorContext";
 
 const PrintPrescription = () => {
   const location = useLocation();
-  const { diagnosis = '', medications = [], notes = '' } = location.state || {};
-
+  const {
+    diagnosis = "",
+    medications = [],
+    notes = "",
+    patientId = "",
+  } = location.state || {};
   const prescriptionRef = useRef();
 
   const handlePrint = useReactToPrint({
     contentRef: prescriptionRef,
   });
 
+  const { getPatient, patient } = useContext(DoctorContext);
+
+  useEffect(() => {
+    getPatient(patientId);
+  }, []);
+  console.log(patient);
+
+  let today = new Date();
+  today.setDate(today.getDate() + 3);
+  let newFolloUpDate = today.toDateString();
   const prescriptionData = {
     doctor: {
-      medicineName: 'Dr. Onkar Bhave',
-      qualifications: 'M.B.B.S., M.D., M.S.',
-      regNo: '270988',
-      contact: '8983390126',
+      doctorName: "Dr. Onkar Bhave",
+      qualifications: "M.B.B.S., M.D., M.S.",
+      regNo: "270988",
+      contact: "8983390126",
     },
     clinic: {
-      medicineName: 'Care Clinic',
-      address: 'Near Axis Bank, Kothrud, Pune - 411038',
-      phone: '09423380390',
-      timings: '09:00 AM - 02:00 PM',
-      closedDay: 'Thursday',
+      clinicName: "Care Clinic",
+      address: "Near Axis Bank, Kothrud, Pune - 411038",
+      phone: "09423380390",
+      timings: "09:00 AM - 02:00 PM",
+      closedDay: "Thursday",
     },
     patient: {
-      id: '266',
-      medicineName: 'DEMO PATIENT (M)',
-      address: 'PUNE',
-      temp: '36°C',
-      bp: '120/80 mmHg',
+      id: "266",
+      patientName: patient.name,
+      address: `${patient.address.slice(0, 21)}....`,
+      temp: "36°C",
+      bp: "120/80 mmHg",
     },
-    prescriptionDate: '27-Apr-2020, 04:37 PM',
-    followUpDate: '12-May-2020',
+    prescriptionDate: today.toString().slice(0, 21),
+    followUpDate: newFolloUpDate,
     advice: notes,
     medicines: medications,
     diagnosis: diagnosis,
@@ -51,7 +66,7 @@ const PrintPrescription = () => {
           <div className="flex justify-between items-start border-b pb-4">
             <div>
               <h1 className="text-lg font-semibold text-green-400">
-                {prescriptionData.doctor.medicineName}
+                {prescriptionData.doctor.doctorName}
               </h1>
               <p>{prescriptionData.doctor.qualifications}</p>
               <p>Reg. No: {prescriptionData.doctor.regNo}</p>
@@ -59,12 +74,12 @@ const PrintPrescription = () => {
             </div>
             <div className="text-right">
               <h2 className="text-lg font-semibold text-green-400">
-                {prescriptionData.clinic.medicineName}
+                {prescriptionData.clinic.clinicName}
               </h2>
               <p>{prescriptionData.clinic.address}</p>
               <p>Ph: {prescriptionData.clinic.phone}</p>
               <p>
-                Timing: {prescriptionData.clinic.timings}, Closed:{' '}
+                Timing: {prescriptionData.clinic.timings}, Closed:{" "}
                 {prescriptionData.clinic.closedDay}
               </p>
             </div>
@@ -76,18 +91,18 @@ const PrintPrescription = () => {
               <div>
                 <p>ID: {prescriptionData.patient.id}</p>
                 <p>
-                  <span className="font-bold">medicineName:</span>{' '}
-                  {prescriptionData.patient.medicineName}
+                  <span className="font-bold">Patient Name:</span>{" "}
+                  {prescriptionData.patient.patientName}
                 </p>
                 <p>
-                  <span className="font-bold">Address:</span>{' '}
+                  <span className="font-bold">Address:</span>{" "}
                   {prescriptionData.patient.address}
                 </p>
               </div>
               <div className="text-right">
                 <p>Date: {prescriptionData.prescriptionDate}</p>
                 <p>
-                  Temp (°C): {prescriptionData.patient.temp}, BP:{' '}
+                  Temp (°C): {prescriptionData.patient.temp}, BP:{" "}
                   {prescriptionData.patient.bp}
                 </p>
               </div>
@@ -107,7 +122,7 @@ const PrintPrescription = () => {
           <table className="w-full mt-4 border-collapse text-left">
             <thead>
               <tr className="border-b-2 border-t-2 border-black">
-                <th className="p-2">Medicine medicineName</th>
+                <th className="p-2">Medicine Name</th>
                 <th className="p-2">Dosage</th>
                 <th className="p-2">Duration</th>
               </tr>
@@ -126,11 +141,11 @@ const PrintPrescription = () => {
           {/* Advice and Follow-up */}
           <div className="mt-4">
             <p>
-              <span className="font-bold">Advice Given:</span>{' '}
+              <span className="font-bold">Advice Given:</span>{" "}
               {prescriptionData.advice}
             </p>
             <p>
-              <span className="font-bold">Follow-up:</span>{' '}
+              <span className="font-bold">Follow-up:</span>{" "}
               {prescriptionData.followUpDate}
             </p>
           </div>
