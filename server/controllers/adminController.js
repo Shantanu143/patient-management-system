@@ -1,7 +1,7 @@
-import bcrypt, { genSalt } from "bcrypt";
-import validator from "validator";
-import doctorModel from "../models/doctorModel.js";
-import jwt from "jsonwebtoken";
+import bcrypt, { genSalt } from 'bcrypt';
+import validator from 'validator';
+import doctorModel from '../models/doctorModel.js';
+import jwt from 'jsonwebtoken';
 
 // API to login admin
 
@@ -11,7 +11,7 @@ const loginAdmin = async (req, res) => {
     if (role !== process.env.ADMIN_ROLE) {
       return res.status(400).json({
         success: false,
-        message: "Invalid role for this login endpoint.",
+        message: 'Invalid role for this login endpoint.',
       });
     }
     if (
@@ -20,18 +20,18 @@ const loginAdmin = async (req, res) => {
     ) {
       const payload = { email, role };
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: "1h",
+        expiresIn: '1h',
       });
-      res.status(202).json({ success: true, token, role: "admin" });
+      res.status(202).json({ success: true, token, role: 'admin' });
     } else {
       res
         .status(401)
-        .json({ success: false, message: "Invalid Credentials !!" });
+        .json({ success: false, message: 'Invalid Credentials !!' });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "login admin error : " + error.message,
+      message: 'login admin error : ' + error.message,
     });
   }
 };
@@ -39,8 +39,16 @@ const loginAdmin = async (req, res) => {
 // API to register a doctor
 const registerDoctor = async (req, res) => {
   try {
-    const { name, email, password, specialization, phone, availability } =
-      req.body;
+    console.log(req.body);
+    const {
+      name,
+      email,
+      password,
+      specialization,
+      phone,
+      availability,
+      address,
+    } = req.body;
 
     if (
       !name ||
@@ -48,11 +56,12 @@ const registerDoctor = async (req, res) => {
       !password ||
       !specialization ||
       !phone ||
-      !availability
+      !availability ||
+      !address
     ) {
       return res
         .status(401)
-        .json({ success: false, message: "Some fields are missing !!!" });
+        .json({ success: false, message: 'Some fields are missing !!!' });
     }
 
     const existingDoctor = await doctorModel.findOne({ email });
@@ -60,7 +69,7 @@ const registerDoctor = async (req, res) => {
     if (existingDoctor) {
       return res.status(400).json({
         success: false,
-        message: "Doctor with this email id already exits ",
+        message: 'Doctor with this email id already exits ',
       });
     }
 
@@ -68,7 +77,7 @@ const registerDoctor = async (req, res) => {
     if (!validator.isEmail(email)) {
       return res
         .status(400)
-        .json({ success: false, message: "Email address is not valid " });
+        .json({ success: false, message: 'Email address is not valid ' });
     }
 
     // strong password validation
@@ -76,7 +85,7 @@ const registerDoctor = async (req, res) => {
     if (password.length < 8) {
       return res.status(400).json({
         success: false,
-        message: "Enter a Min 8 latter Strong password !!",
+        message: 'Enter a Min 8 latter Strong password !!',
       });
     }
 
@@ -91,17 +100,18 @@ const registerDoctor = async (req, res) => {
       specialization,
       phone,
       availability,
-      role: "doctor",
+      address,
+      role: 'doctor',
     };
 
     const newDoctor = new doctorModel(doctorData);
     const doctor = await newDoctor.save();
 
     const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
+      expiresIn: '24h',
     });
 
-    res.status(201).json({ success: true, message: "Doctor Registerd !!" });
+    res.status(201).json({ success: true, message: 'Doctor Registerd !!' });
   } catch (error) {
     res.status(401).json({ success: false, message: error.message });
   }
@@ -110,12 +120,12 @@ const registerDoctor = async (req, res) => {
 // API to get all the doctors
 const getAllDoctors = async (req, res) => {
   try {
-    const doctors = await doctorModel.find({}).select("-password");
+    const doctors = await doctorModel.find({}).select('-password');
     res.status(200).json({ success: true, doctors });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Get All Doctor Error : " + error.message,
+      message: 'Get All Doctor Error : ' + error.message,
     });
   }
 };
@@ -123,18 +133,18 @@ const getAllDoctors = async (req, res) => {
 const getDoctor = async (req, res) => {
   try {
     const { id } = req.params;
-    const doctor = await doctorModel.findById(id).select("-password");
+    const doctor = await doctorModel.findById(id).select('-password');
 
     if (!doctor) {
       return res
         .status(404)
-        .json({ success: false, message: "Doctor Not Found" });
+        .json({ success: false, message: 'Doctor Not Found' });
     }
     res.status(200).json({ success: true, doctor });
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Get Doctor Error : " + error.message });
+      .json({ success: false, message: 'Get Doctor Error : ' + error.message });
   }
 };
 
@@ -149,22 +159,24 @@ const updateDoctor = async (req, res) => {
       specialization,
       phone,
       availability,
+      address,
     } = req.body;
 
     const missingFields = [];
 
-    if (!docId) missingFields.push("id");
-    if (!name) missingFields.push("name");
-    if (!email) missingFields.push("email");
-    if (!password) missingFields.push("password");
-    if (!specialization) missingFields.push("specialization");
-    if (!phone) missingFields.push("phone");
-    if (!availability) missingFields.push("availability");
+    if (!docId) missingFields.push('id');
+    if (!name) missingFields.push('name');
+    if (!email) missingFields.push('email');
+    if (!password) missingFields.push('password');
+    if (!specialization) missingFields.push('specialization');
+    if (!phone) missingFields.push('phone');
+    if (!availability) missingFields.push('availability');
+    if (!address) missingFields.push('address');
 
     if (missingFields.length > 0) {
       return res.status(400).json({
         success: false,
-        message: `Missing Fields : ${missingFields.join(", ")}`,
+        message: `Missing Fields : ${missingFields.join(', ')}`,
       });
     }
 
@@ -172,14 +184,14 @@ const updateDoctor = async (req, res) => {
     if (!existingDoctor) {
       return res
         .status(404)
-        .json({ success: false, message: "Doctor not Found !!" });
+        .json({ success: false, message: 'Doctor not Found !!' });
     }
 
     // validating email
     if (!validator.isEmail(email)) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid email address !!" });
+        .json({ success: false, message: 'Invalid email address !!' });
     }
 
     // check if email is being updated and is already in use
@@ -189,7 +201,7 @@ const updateDoctor = async (req, res) => {
       if (emailInUse) {
         return res
           .status(400)
-          .json({ success: false, message: "Email is already in use !!!" });
+          .json({ success: false, message: 'Email is already in use !!!' });
       }
     }
 
@@ -197,7 +209,7 @@ const updateDoctor = async (req, res) => {
     if (password.length < 8) {
       return res.status(500).json({
         success: false,
-        message: "Enter must be at least 8 characters long !!",
+        message: 'Enter must be at least 8 characters long !!',
       });
     }
 
@@ -211,12 +223,13 @@ const updateDoctor = async (req, res) => {
       specialization,
       phone,
       availability,
+      address,
     };
 
     if (req.body.role) {
       return res.status(400).json({
         success: false,
-        message: "Role updates are not allowed via this endpoint",
+        message: 'Role updates are not allowed via this endpoint',
       });
     }
 
@@ -226,11 +239,11 @@ const updateDoctor = async (req, res) => {
 
     res
       .status(200)
-      .json({ success: true, message: "Doctor Updated Successfully" });
+      .json({ success: true, message: 'Doctor Updated Successfully' });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Update Doctor Error : " + error.message,
+      message: 'Update Doctor Error : ' + error.message,
     });
   }
 };
@@ -242,23 +255,23 @@ const deleteDoctor = async (req, res) => {
     if (!docId) {
       return res
         .status(400)
-        .json({ success: false, message: "Doctor id requrired" });
+        .json({ success: false, message: 'Doctor id requrired' });
     }
     const deleteDoctor = await doctorModel.findByIdAndDelete(docId);
 
     if (!deleteDoctor) {
       return res
         .status(404)
-        .json({ success: false, message: "Doctor does not exist !!" });
+        .json({ success: false, message: 'Doctor does not exist !!' });
     }
 
     res
       .status(200)
-      .json({ success: true, message: "Doctor deleted Successfully" });
+      .json({ success: true, message: 'Doctor deleted Successfully' });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Delete doctor Error : " + error.message,
+      message: 'Delete doctor Error : ' + error.message,
     });
   }
 };

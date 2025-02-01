@@ -1,25 +1,26 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { AppContext } from "../context/AppContext";
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AppContext } from '../context/AppContext';
 
 const EditDoctorForm = () => {
   const { backendUrl, token, editDoctor } = useContext(AppContext);
   const { id } = useParams();
 
   const [doctorData, setDoctorData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    specialization: "",
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    specialization: '',
     availability: {
-      startDay: "",
-      endDay: "",
-      startTime: "",
-      endTime: "",
+      startDay: '',
+      endDay: '',
+      startTime: '',
+      endTime: '',
     },
+    address: '',
   });
 
   const fetchDoctorsDetails = async () => {
@@ -33,7 +34,7 @@ const EditDoctorForm = () => {
         setDoctorData({
           name: doctor.name,
           email: doctor.email,
-          password: "",
+          password: '',
           phone: doctor.phone,
           specialization: doctor.specialization,
           availability: {
@@ -42,9 +43,10 @@ const EditDoctorForm = () => {
             startTime: doctor.availability.startTime,
             endTime: doctor.availability.endTime,
           },
+          address: doctor.address,
         });
       } else {
-        toast.error("Error fetching doctor details");
+        toast.error('Error fetching doctor details');
       }
     } catch (error) {
       toast.error(error.message);
@@ -55,28 +57,26 @@ const EditDoctorForm = () => {
     fetchDoctorsDetails();
   }, [id]);
 
-
-
   const handleInputChange = (e) => {
     const { id, value } = e.target;
 
     if (
-      id === "start_day" ||
-      id === "end_day" ||
-      id === "start-time" ||
-      id === "end-time"
+      id === 'start_day' ||
+      id === 'end_day' ||
+      id === 'start-time' ||
+      id === 'end-time'
     ) {
       setDoctorData((prevData) => ({
         ...prevData,
         availability: {
           ...prevData.availability,
-          [id === "start_day"
-            ? "startDay"
-            : id === "end_day"
-            ? "endDay"
-            : id === "start-time"
-            ? "startTime"
-            : "endTime"]: value,
+          [id === 'start_day'
+            ? 'startDay'
+            : id === 'end_day'
+            ? 'endDay'
+            : id === 'start-time'
+            ? 'startTime'
+            : 'endTime']: value,
         },
       }));
     } else {
@@ -187,6 +187,23 @@ const EditDoctorForm = () => {
             required
           />
         </div>
+        <div className="p-2 md:w-1/2">
+          <label
+            htmlFor="address"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Address
+          </label>
+          <input
+            type="text"
+            id="address"
+            value={doctorData.address}
+            onChange={handleInputChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="203/1, Pune, Maharasthra"
+            required
+          />
+        </div>
         <div className="p-2 w-full">
           <p className="w-full mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Availability
@@ -209,13 +226,13 @@ const EditDoctorForm = () => {
                   required
                 >
                   {[
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
+                    'Sunday',
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
                   ].map((day) => (
                     <option key={day} value={day}>
                       {day}
@@ -238,13 +255,13 @@ const EditDoctorForm = () => {
                   required
                 >
                   {[
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
+                    'Sunday',
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
                   ].map((day) => (
                     <option key={day} value={day}>
                       {day}
