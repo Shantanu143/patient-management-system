@@ -1,48 +1,51 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const DoctorSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
       lowercase: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
     specialization: {
       type: String,
-      require: true,
+      required: true,
     },
     phone: {
       type: String,
-      require: true,
+      required: true,
     },
     availability: {
-     
       startDay: {
-          type: String,
-          require: true,
-        },
-        endDay: {
-          type: String,
-          require: true,
-        },
-   
-        startTime: {
-          type: String,
-          require: true,
-        },
-        endTime: {
-          type: String,
-          require: true,
-        },
+        type: String,
+        required: true,
+      },
+      endDay: {
+        type: String,
+        required: true,
+      },
+
+      startTime: {
+        type: String,
+        required: true,
+      },
+      endTime: {
+        type: String,
+        required: true,
+      },
+    },
+    address: {
+      type: String,
+      required: true,
     },
     role: { type: String, required: true },
   },
@@ -50,6 +53,6 @@ const DoctorSchema = new mongoose.Schema(
 );
 
 const doctorModel =
-  mongoose.model.doctor || mongoose.model("doctor", DoctorSchema);
+  mongoose.model.doctor || mongoose.model('doctor', DoctorSchema);
 
 export default doctorModel;

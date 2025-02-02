@@ -1,27 +1,27 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const PatientSchema = new mongoose.Schema(
   {
-    name: { type: String, require: true },
-    age: { type: Number, require: true },
-    gender: { type: String, require: true },
-    contact: { type: String, require: true },
-    address: { type: String, require: true },
+    name: { type: String, required: true },
+    age: { type: Number, required: true },
+    gender: { type: String, required: true },
+    contact: { type: String, required: true },
+    address: { type: String, required: true },
     medicalHistory: { type: [String], default: [] },
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "doctor",
-      require: true,
+      ref: 'doctor',
+      required: true,
     },
     diagnosis: {
       type: String,
-      require: false,
+      required: false,
     },
   },
   { timestamps: true }
 );
 
 const patientModel =
-  mongoose.model.patient || mongoose.model("patient", PatientSchema);
+  mongoose.model.patient || mongoose.model('patient', PatientSchema);
 
 export default patientModel;

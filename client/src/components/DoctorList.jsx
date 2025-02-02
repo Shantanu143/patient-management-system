@@ -88,6 +88,9 @@ const DoctorList = () => {
               <th scope="col" className="px-6 py-3">
                 Action
               </th>
+              <th scope="col" className="px-6 py-3">
+                Address
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -136,6 +139,7 @@ const DoctorList = () => {
                     </button>
                   </div>
                 </td>
+                <td className="px-6 py-4">{data.address}</td>
               </tr>
             ))}
           </tbody>
