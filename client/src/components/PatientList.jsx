@@ -36,16 +36,16 @@ const PatientList = () => {
   }
 
   return (
-    <div className="sm:ml-64 pt-20 px-10">
-      <div className="flex items-center justify-start mb-6">
-        <h3 className="text-2xl font-semibold">Manage Patients</h3>
+    <div className="sm:ml-64 px-10 pt-20">
+      <div className="flex justify-start items-center mb-6">
+        <h3 className="font-semibold text-2xl">Manage Patients</h3>
       </div>
       <div className="pb-4">
         <label htmlFor="table-search" className="sr-only">
           Search
         </label>
-        <div className="relative mt-1 ">
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <div className="relative mt-1">
+          <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none start-0">
             <svg
               className="w-4 h-4 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
@@ -67,14 +67,14 @@ const PatientList = () => {
             id="table-search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="block pt-2 ps-10 text-sm text-gray-900 border bg-transparent border-gray-300 rounded-3xl w-full max-w-80 focus:ring-blue-500 focus:border-blue-500"
+            className="block bg-transparent ps-10 pt-2 border border-gray-300 focus:border-blue-500 rounded-3xl focus:ring-blue-500 w-full max-w-80 text-gray-900 text-sm"
             placeholder="Search for a patient"
           />
         </div>
       </div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <div className="relative shadow-md sm:rounded-lg overflow-x-auto">
+        <table className="w-full text-gray-500 dark:text-gray-400 text-sm text-left">
+          <thead className="bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-400 text-xs uppercase">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name
@@ -100,11 +100,11 @@ const PatientList = () => {
             {filteredPatients.map((patient) => (
               <tr
                 key={patient._id}
-                className="bg-white border-b  dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                className="bg-white hover:bg-gray-50 dark:hover:bg-gray-600 dark:bg-gray-800 dark:border-gray-700 border-b"
               >
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                   <div>{patient.name}</div>
-                  <div className="flex flex-row gap-1 text-xs font-normal">
+                  <div className="flex flex-row gap-1 font-normal text-xs">
                     <span>{patient.age}</span>
                     <span>{patient.gender}</span>
                   </div>
@@ -117,29 +117,29 @@ const PatientList = () => {
                   <div className="flex flex-row md:items-center gap-2">
                     <Link
                       to={`/doctor-dashboard/edit-patient/${patient._id}`}
-                      className="font-medium text-[#3A7AC0] bg-[#D6EBFF] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
+                      className="bg-[#D6EBFF] px-2 py-1 rounded-md font-medium text-[#3A7AC0] hover:underline transition-all hover:-translate-y-1"
                     >
                       Edit
                     </Link>
                     <button
                       onClick={() => deletePatient(patient._id)}
-                      className="font-medium text-[#C74312] bg-[#FFD5C7] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
+                      className="bg-[#FFD5C7] px-2 py-1 rounded-md font-medium text-[#C74312] hover:underline transition-all hover:-translate-y-1"
                     >
                       Delete
                     </button>
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="flex flex-row md:items-center gap-2 justify-center">
+                  <div className="flex flex-row justify-center md:items-center gap-2">
                     {/* <Link
       
-                      className="font-medium text-[#6448D6] bg-[#DDD6FF] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
+                      className="bg-[#DDD6FF] px-2 py-1 rounded-md font-medium text-[#6448D6] hover:underline transition-all hover:-translate-y-1"
                     >
                       Add
                     </Link> */}
                     <Link
                       to={`/doctor-dashboard/prescription-history/${patient._id}`}
-                      className="font-medium text-[#248C36] bg-[#CFF3D1] px-2 py-1 rounded-md hover:underline hover:-translate-y-1 transition-all"
+                      className="bg-[#CFF3D1] px-2 py-1 rounded-md font-medium text-[#248C36] hover:underline transition-all hover:-translate-y-1"
                     >
                       View
                     </Link>
