@@ -1,10 +1,10 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
+import { DoctorContext } from '../context/DoctorContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import AdminPanel from '../components/AdminPanel';
 import AddPatientForm from '../components/AddPatientForm';
 import PatientList from '../components/PatientList';
 import EditPatientForm from '../components/EditPatientForm';
@@ -16,6 +16,7 @@ import DoctorPanel from '../components/DoctorPanel';
 const DoctorDashboard = () => {
   const navigate = useNavigate();
   const { setToken } = useContext(AppContext);
+  const { getDoctor, doctor } = useContext(DoctorContext);
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
@@ -23,6 +24,12 @@ const DoctorDashboard = () => {
     navigate('/login');
     toast.success('succefully log out ');
   };
+
+  useEffect(() => {
+    getDoctor();
+  }, []);
+
+  console.log(doctor);
 
   const doctorSidebarLinks = [
     {
