@@ -1,15 +1,15 @@
-import { useContext, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { useReactToPrint } from "react-to-print";
-import { DoctorContext } from "../context/DoctorContext";
+import { useContext, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
+import { DoctorContext } from '../context/DoctorContext';
 
 const PrintPrescription = () => {
   const location = useLocation();
   const {
-    diagnosis = "",
+    diagnosis = '',
     medications = [],
-    notes = "",
-    patientId = "",
+    notes = '',
+    patientId = '',
   } = location.state || {};
   const prescriptionRef = useRef();
 
@@ -17,36 +17,35 @@ const PrintPrescription = () => {
     contentRef: prescriptionRef,
   });
 
-  const { getPatient, patient } = useContext(DoctorContext);
+  const { getPatient, patient, doctor } = useContext(DoctorContext);
 
   useEffect(() => {
     getPatient(patientId);
   }, []);
-  console.log(patient);
 
   let today = new Date();
   today.setDate(today.getDate() + 3);
   let newFolloUpDate = today.toDateString();
   const prescriptionData = {
     doctor: {
-      doctorName: "Dr. Onkar Bhave",
-      qualifications: "M.B.B.S., M.D., M.S.",
-      regNo: "270988",
-      contact: "8983390126",
+      doctorName: doctor.name,
+      qualifications: 'M.B.B.S., M.D., M.S.',
+      regNo: '270988',
+      contact: doctor.phone,
     },
     clinic: {
-      clinicName: "Care Clinic",
-      address: "Near Axis Bank, Kothrud, Pune - 411038",
-      phone: "09423380390",
-      timings: "09:00 AM - 02:00 PM",
-      closedDay: "Thursday",
+      clinicName: 'Care Clinic',
+      address: 'Near Axis Bank, Kothrud, Pune - 411038',
+      phone: '09423380390',
+      timings: '09:00 AM - 02:00 PM',
+      closedDay: 'Thursday',
     },
     patient: {
-      id: "266",
+      id: '266',
       patientName: patient.name,
       address: `${patient.address.slice(0, 21)}....`,
-      temp: "36°C",
-      bp: "120/80 mmHg",
+      temp: '36°C',
+      bp: '120/80 mmHg',
     },
     prescriptionDate: today.toString().slice(0, 21),
     followUpDate: newFolloUpDate,
@@ -56,16 +55,16 @@ const PrintPrescription = () => {
   };
 
   return (
-    <div className="flex items-center flex-col justify-center min-h-screen">
+    <div className="flex flex-col justify-center items-center min-h-screen">
       <div
         ref={prescriptionRef}
-        className="prescription-container border flex flex-col justify-center p-6 max-w-4xl mx-auto text-sm "
+        className="flex flex-col justify-center mx-auto p-6 border max-w-4xl text-sm prescription-container"
       >
         {/* Header */}
-        <div className="prescription-content h-full flex flex-col justify-between">
-          <div className="flex justify-between items-start border-b pb-4">
+        <div className="flex flex-col justify-between h-full prescription-content">
+          <div className="flex justify-between items-start pb-4 border-b">
             <div>
-              <h1 className="text-lg font-semibold text-green-400">
+              <h1 className="font-semibold text-green-400 text-lg">
                 {prescriptionData.doctor.doctorName}
               </h1>
               <p>{prescriptionData.doctor.qualifications}</p>
@@ -73,13 +72,13 @@ const PrintPrescription = () => {
               <p>Mob: {prescriptionData.doctor.contact}</p>
             </div>
             <div className="text-right">
-              <h2 className="text-lg font-semibold text-green-400">
+              <h2 className="font-semibold text-green-400 text-lg">
                 {prescriptionData.clinic.clinicName}
               </h2>
               <p>{prescriptionData.clinic.address}</p>
               <p>Ph: {prescriptionData.clinic.phone}</p>
               <p>
-                Timing: {prescriptionData.clinic.timings}, Closed:{" "}
+                Timing: {prescriptionData.clinic.timings}, Closed:{' '}
                 {prescriptionData.clinic.closedDay}
               </p>
             </div>
@@ -91,18 +90,18 @@ const PrintPrescription = () => {
               <div>
                 <p>ID: {prescriptionData.patient.id}</p>
                 <p>
-                  <span className="font-bold">Patient Name:</span>{" "}
+                  <span className="font-bold">Patient Name:</span>{' '}
                   {prescriptionData.patient.patientName}
                 </p>
                 <p>
-                  <span className="font-bold">Address:</span>{" "}
+                  <span className="font-bold">Address:</span>{' '}
                   {prescriptionData.patient.address}
                 </p>
               </div>
               <div className="text-right">
                 <p>Date: {prescriptionData.prescriptionDate}</p>
                 <p>
-                  Temp (°C): {prescriptionData.patient.temp}, BP:{" "}
+                  Temp (°C): {prescriptionData.patient.temp}, BP:{' '}
                   {prescriptionData.patient.bp}
                 </p>
               </div>
@@ -111,7 +110,7 @@ const PrintPrescription = () => {
 
           {/* Dignoasis */}
           <div className="mt-4">
-            <div className="flex justify-start gap-1 items-end">
+            <div className="flex justify-start items-end gap-1">
               <span className="font-bold">Diagnosis:</span>
 
               <div className="capitalize"> {prescriptionData.diagnosis}</div>
@@ -119,9 +118,9 @@ const PrintPrescription = () => {
           </div>
 
           {/* Medicines Table */}
-          <table className="w-full mt-4 border-collapse text-left">
+          <table className="mt-4 w-full text-left border-collapse">
             <thead>
-              <tr className="border-b-2 border-t-2 border-black">
+              <tr className="border-t-2 border-b-2 border-black">
                 <th className="p-2">Medicine Name</th>
                 <th className="p-2">Dosage</th>
                 <th className="p-2">Duration</th>
@@ -141,17 +140,17 @@ const PrintPrescription = () => {
           {/* Advice and Follow-up */}
           <div className="mt-4">
             <p>
-              <span className="font-bold">Advice Given:</span>{" "}
+              <span className="font-bold">Advice Given:</span>{' '}
               {prescriptionData.advice}
             </p>
             <p>
-              <span className="font-bold">Follow-up:</span>{" "}
+              <span className="font-bold">Follow-up:</span>{' '}
               {prescriptionData.followUpDate}
             </p>
           </div>
 
           {/* Footer */}
-          <div className="text-right mt-6">
+          <div className="mt-6 text-right">
             <p className="font-bold">
               Signature
               <br />
@@ -162,10 +161,10 @@ const PrintPrescription = () => {
 
         {/* Print Button */}
       </div>
-      <div className="text-center px-2 py-1 mt-6">
+      <div className="mt-6 px-2 py-1 text-center">
         <button
           onClick={handlePrint}
-          className="bg-green-500 text-white font-medium rounded-lg p-2 text-sm hover:bg-green-600"
+          className="bg-green-500 hover:bg-green-600 p-2 rounded-lg font-medium text-white text-sm"
         >
           Print
         </button>

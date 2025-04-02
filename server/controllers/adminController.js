@@ -132,7 +132,8 @@ const getAllDoctors = async (req, res) => {
 
 const getDoctor = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
+
     const doctor = await doctorModel.findById(id).select('-password');
 
     if (!doctor) {
